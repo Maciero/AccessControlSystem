@@ -1,5 +1,6 @@
 package com.example.accesscontrolsystem.model;
 
+import com.example.accesscontrolsystem.AccessList;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,14 +22,12 @@ public class RoomModel {
     @Column(name = "name")
     private String name;
 
-    @Column
-    private Departments department;
-
     @ManyToOne
     @JoinColumn(name = "buildingModel_id")
     private BuildingModel buildingModel;
 
-
+    @Enumerated(value = EnumType.STRING)
+    private AccessList accessList;
 
 
 }

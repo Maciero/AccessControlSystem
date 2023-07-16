@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,3 +35,7 @@ public class BuildingModel {
     private List<UserModel> userModels = new ArrayList<>();
 
 }
+
+//    @ElementCollection
+
+//   @Convert
