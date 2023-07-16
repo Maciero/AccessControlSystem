@@ -18,7 +18,7 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository userRepository;
-    @GetMapping("/index")
+    @GetMapping("/")
     public String showUserList(Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "index";
@@ -34,7 +34,7 @@ public class UserController {
             return "add-user";
         }
         userRepository.save(user);
-        return "redirect:/index";
+        return "redirect:/";
     }
 
     @GetMapping("/edit/{id}")
@@ -48,12 +48,8 @@ public class UserController {
 
     @PostMapping("/update/{id}")
     public String updateUser(@PathVariable("id") long id,  UserModel user,
-                             BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            user.setId(id);
-            return "update-user";
-        }
-
+                              Model model) {
+        model.addAttribute("user", user);
         userRepository.save(user);
         return "redirect:/index";
     }
