@@ -7,6 +7,6 @@ import jakarta.persistence.Id;
 
 
 public enum Departments {
-
+AAA, BBB
 
 }

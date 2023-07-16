@@ -18,6 +18,9 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+
+//    @NotBlank(message = "Email is mandatory")
+
     @Column(name = "name")
     private String name;
 
@@ -33,5 +36,7 @@ public class UserModel {
 
     @Enumerated(value = EnumType.STRING)
     private AccessList accessList;
+
+
 
 }
