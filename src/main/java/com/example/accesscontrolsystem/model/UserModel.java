@@ -24,6 +24,10 @@ public class UserModel {
     private String surname;
 
     @Column(name = "department")
-    private String department;
+    private Departments department;
+
+    @ManyToOne
+    @JoinColumn(name = "buildingModel_id")
+    private BuildingModel buildingModel;
 
 }
