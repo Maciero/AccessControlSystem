@@ -51,14 +51,14 @@ public class UserController {
                               Model model) {
         model.addAttribute("user", user);
         userRepository.save(user);
-        return "redirect:/index";
+        return "redirect:/";
     }
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") long id, Model model) {
         UserModel user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         userRepository.delete(user);
-        return "redirect:/index";
+        return "redirect:/";
     }
 
 }
