@@ -12,8 +12,8 @@ import java.util.List;
 public class BuildingService {
     private final BuildingRepository buildingRepository;
 
-    public void addBuilding(BuildingModel user) {
-        buildingRepository.save(user);
+    public void addBuilding(BuildingModel buildingModel) {
+        buildingRepository.save(buildingModel);
     }
 
     public List<BuildingModel> getBuildingList() {

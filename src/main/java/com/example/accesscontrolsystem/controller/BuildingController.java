@@ -5,11 +5,10 @@ import com.example.accesscontrolsystem.service.BuildingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -19,49 +18,47 @@ public class BuildingController {
 
     private final BuildingService buildingService;
 
+
+
     @GetMapping("/building")
     public String getBuildingList(Model model) {
         List<BuildingModel> list = buildingService.getBuildingList();
-        model.addAttribute("buildingModel", list);
+        model.addAttribute("buildings", list);
         return "building/building";
     }
-//
-    @PostMapping("/building")
-    public RedirectView postAddBuilding(BuildingModel building) {
-        buildingService.addBuilding(building);
-        return new RedirectView("/building");
-    }
-    @PatchMapping("/editBuilding/{id}")
-    public RedirectView editBuilding(BuildingModel model){
-        buildingService.saveEditBuilding(model);
-        return new RedirectView("/building");
-    }
-    @PostMapping("/removeBuilding/{id}")
-    public RedirectView removeBuilding(@PathVariable("id") Long id){
-       buildingService.removeBuilding(id);
-        return new RedirectView("/building");
+
+    @GetMapping("/addBuildings")
+    public String getAddBuilding(Model model) {
+        model.addAttribute("addedBuilding", new BuildingModel());
+        return "building/add-building";
     }
 
-//
-//    @GetMapping("/education/{id}")
-//    public String getTask(@PathVariable("id") Long id, Model model) {
-//
-//        EducationModel task = educationService.getEducationById(id);
-//        model.addAttribute("student");
-//        model.addAttribute("task", task);
-//        return "education/education";
-//    }
-//
-//    @PostMapping("/removeEducation/{id}")
-//    public RedirectView removeEducation(@PathVariable("id") Long id) {
-//        educationService.removeEducation(id);
-//        return new RedirectView("/education");
-//    }
-//
-//    @PostMapping("/editEducation/{id}")
-//    public RedirectView patchEdit(@PathVariable("id") Long id, EducationModel educationModel) {
-//        educationService.saveEditTask(educationModel);
-//        return new RedirectView("/education");
-//    }
-    
+    @PostMapping("/addBuilding")
+    public String addBuilding(BuildingModel newBuilding, BindingResult result) {
+        if (result.hasErrors()) {
+            return "building/add-building";
+        }
+        buildingService.addBuilding(newBuilding);
+        return "redirect:/building";
+    }
+
+    @GetMapping("editBuilding/{id}")
+    public String getEditBuilding(@PathVariable("id") Long id, Model model) {
+        BuildingModel buildingModel = buildingService.getBuildingById(id);
+        model.addAttribute("buildingToEdit", buildingModel);
+        return "building/update-building";
+    }
+
+    @PostMapping("/editBuilding/{id}")
+    public String editBuilding(BuildingModel editBuilding) {
+        buildingService.saveEditBuilding(editBuilding);
+        return "redirect:/building";
+    }
+
+    @GetMapping("/deleteBuilding/{id}") //dlaczego GET a nie post????
+    public String removeBuilding(@PathVariable("id") Long id, Model model) {
+        buildingService.removeBuilding(id);
+        return "redirect:/building";
+    }
+
 }
