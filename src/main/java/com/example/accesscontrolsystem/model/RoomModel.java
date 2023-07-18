@@ -24,7 +24,7 @@ public class RoomModel {
 
     @ManyToOne
     @JoinColumn(name = "buildingModel_id")
-    private BuildingModel buildingModel;
+    private BuildingModel building;
 
     @Enumerated(value = EnumType.STRING)
     private AccessList accessList;

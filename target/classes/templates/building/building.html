@@ -1,0 +1,26 @@
+<h2>Buildings</h2>
+<div th:switch="${buildings}">
+    <h2 th:case="null">No buildings yet!</h2>
+    <div th:case="*">
+         <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="building : ${buildings}">
+                <td th:text="${building.id}"></td>
+                <td th:text="${building.name}"></td>
+                <td><a th:href="@{/editBuilding/{id}(id=${building.id})}">Edit</a></td>
+                <td><a th:href="@{/deleteBuilding/{id}(id=${building.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p><a href="/addBuildings">Add a new building</a></p>
+<br>
+    <p><a  href="/rooms" >Rooms</a></p>
+    <p><a  href="/" >Users</a></p>
+</div>
