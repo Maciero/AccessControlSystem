@@ -15,12 +15,11 @@
     <label for="department">Department</label>
     <select name="department" id="department" th:field="*{department}">
         <option value="department" hidden>select</option>
-        <option value="department"
-                th:each="departmentOpt : ${T(com.example.accesscontrolsystem.model.Departments).values()}"
-                th:value="${departmentOpt}"
-                th:text="${departmentOpt.displayText}"
-        ></option>
+        <option th:each="departmentOpt : ${T(com.example.accesscontrolsystem.model.Departments).values()}"
+                th:value="${departmentOpt.name()}"
+                th:text="${departmentOpt.getDisplayText()}"></option>
     </select>
+
     <p></p>
     <!--    menu wyboru department-->
 
