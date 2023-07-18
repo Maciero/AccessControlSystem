@@ -28,7 +28,7 @@ public class UserModel {
     private String surname;
 
     @Column(name = "department")
-    private Departments department;
+    private Departaments department;
 
     @ManyToOne
     @JoinColumn(name = "buildingModel_id")
