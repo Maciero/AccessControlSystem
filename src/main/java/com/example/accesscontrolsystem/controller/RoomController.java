@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -28,8 +29,8 @@ public class RoomController {
     @GetMapping("/addRooms")
     public String getAddRoom(Model model) {
         List<BuildingModel> buildingList = buildingService.getBuildingList();
-        model.addAttribute("addedRoom", new RoomModel());
         model.addAttribute("buildingsList",buildingList );
+        model.addAttribute("addedRoom", new RoomModel());
         return "room/add-room";
     }
 
@@ -39,6 +40,25 @@ public class RoomController {
             return "room/add-room";
         }
         roomService.addRoom(newRoom);
+        return "redirect:/rooms";
+    }
+
+    @GetMapping("editRoom/{id}")
+    public String getEditRoom(@PathVariable("id") Long id, Model model) {
+        RoomModel roomToEdit = roomService.getRoomById(id);
+        model.addAttribute("roomToEdit", roomToEdit);
+        return "room/update-room";
+    }
+
+    @PostMapping("/editRoom/{id}")
+    public String editRoom(RoomModel editRoom) {
+        roomService.saveEditRoom(editRoom);
+        return "redirect:/rooms";
+    }
+
+    @GetMapping("/deleteRoom/{id}")
+    public String deleteRoom(@PathVariable("id") Long id) {
+        roomService.removeRoom(id);
         return "redirect:/rooms";
     }
 }

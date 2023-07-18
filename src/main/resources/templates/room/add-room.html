@@ -15,12 +15,13 @@
         ></option>
     </select>
     <label for="building">Building</label>
-    <select name="building" id="building" th:field="*{building}">
-        <option th:each="building : ${buildingsList}"
-                th:value="building"
-                th:text="${building.getId()}" >
-        </option>
-    </select>
+    <input type="text" th:field="*{building.id}" id="building" placeholder="Building">
+<!--    <select id="building" th:field="*{building}">-->
+<!--        <option th:each="building : ${buildingsList}"-->
+<!--                th:value="building.id"-->
+<!--                th:text="${building.getId()}" >-->
+<!--        </option>-->
+<!--    </select>-->
     <input type="submit" value="Add Room">
 </form>
 <!--
