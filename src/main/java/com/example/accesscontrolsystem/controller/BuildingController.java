@@ -56,7 +56,7 @@ public class BuildingController {
     }
 
     @GetMapping("/deleteBuilding/{id}") //dlaczego GET a nie post????
-    public String removeBuilding(@PathVariable("id") Long id, Model model) {
+    public String removeBuilding(@PathVariable("id") Long id) {
         buildingService.removeBuilding(id);
         return "redirect:/building";
     }

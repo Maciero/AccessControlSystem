@@ -2,7 +2,7 @@
 <div th:switch="${buildings}">
     <h2 th:case="null">No buildings yet!</h2>
     <div th:case="*">
-         <table>
+        <table>
             <thead>
             <tr>
                 <th>ID</th>
@@ -20,7 +20,10 @@
         </table>
     </div>
     <p><a href="/addBuildings">Add a new building</a></p>
-<br>
-    <p><a  href="/rooms" >Rooms</a></p>
-    <p><a  href="/" >Users</a></p>
+    <br>
+    <h1>Go to:</h1>
+    <table cellspacing="15">
+        <th><a href="/rooms">Rooms</a></th>
+        <th><a href="/">Users</a></th>
+    </table>
 </div>

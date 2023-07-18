@@ -1,5 +1,7 @@
-<div>Add room</div>
-<form action="#" th:action="@{/addRoom}"  th:object="${addedRoom}" method="post">
+<form action="#"
+      th:action="@{/editRoom/{id}(id=${roomToEdit.id})}"
+      th:object="${roomToEdit}"
+      method="post">
 
     <label for="name">Name</label>
     <input type="text" th:field="*{name}" id="name" placeholder="Name">
@@ -14,21 +16,11 @@
                 th:text="${accessL.toString()}"
         ></option>
     </select>
+
     <label for="building">Building</label>
     <input type="text" th:field="*{building.id}" id="building" placeholder="Building">
-<!--    <select id="building" th:field="*{building}">-->
-<!--        <option th:each="building : ${buildingsList}"-->
-<!--                th:value="building.id"-->
-<!--                th:text="${building.getId()}" >-->
-<!--        </option>-->
-<!--    </select>-->
-    <input type="submit" value="Add Room">
+
+
+
+    <input type="submit" value="Update Room">
 </form>
-<!--
-<select class="form-control" id="dropDownList">
-    <option value="0">select option</option>
-    <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>
-</select>
--->
-
-
