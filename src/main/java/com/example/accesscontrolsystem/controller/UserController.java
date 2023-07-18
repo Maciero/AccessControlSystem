@@ -6,6 +6,7 @@ import com.example.accesscontrolsystem.model.UserModel;
 import com.example.accesscontrolsystem.repository.BuildingRepository;
 import com.example.accesscontrolsystem.repository.UserRepository;
 import com.example.accesscontrolsystem.service.BuildingService;
+import com.example.accesscontrolsystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +14,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -23,6 +26,8 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final BuildingRepository buildingRepository;
+    private final UserService userService;
+
 
     @GetMapping("/")
     public String showUserList(Model model) {
@@ -75,4 +80,36 @@ public class UserController {
         userRepository.delete(user);
         return "redirect:/";
     }
+
+    @GetMapping("/users")
+    public String getUsers(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
+        List<UserModel> users = userService.getUserList();
+
+        if (sortBy != null) {
+            switch (sortBy) {
+                case "id":
+                    users.sort(Comparator.comparing(UserModel::getId));
+                    break;
+                case "name":
+                    users.sort(Comparator.comparing(UserModel::getName));
+                    break;
+                case "surname":
+                    users.sort(Comparator.comparing(UserModel::getSurname));
+                    break;
+//                case "buildingModel":
+//                    users.sort(Comparator.comparing(UserModel::getBuildingModel));
+//                    break;
+                case "department":
+                    users.sort(Comparator.comparing(u -> u.getDepartment().getDisplayText()));
+                    break;
+                default:
+                    // Obsłuż nieznany parametr sortowania
+                    break;
+            }
+        }
+
+        model.addAttribute("users", users);
+        return "index";
+    }
+
 }

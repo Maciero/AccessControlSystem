@@ -13,13 +13,15 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public void addUser(UserModel user) {
-        userRepository.save(user);
-    }
 
     public List<UserModel> getUserList() {
         return (List<UserModel>) userRepository.findAll();
     }
+
+    public void addUser(UserModel user) {
+        userRepository.save(user);
+    }
+
 
     public UserModel getUserById(Long id) {
         return userRepository.findById(id).orElse(null);

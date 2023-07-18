@@ -5,11 +5,11 @@
         <table>
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Building</th>
-                <th>Department</th>
+                <th><a th:href="@{/users(sortBy='id')}">ID</a></th>
+                <th><a th:href="@{/users(sortBy='name')}">Name</a></th>
+                <th><a th:href="@{/users(sortBy='surname')}">Surname</a></th>
+                <th><a th:href="@{/users(sortBy='buildingModel')}">Building</a></th>
+                <th><a th:href="@{/users(sortBy='department')}">Department</a></th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
