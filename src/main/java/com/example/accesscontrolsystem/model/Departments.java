@@ -1,7 +1,7 @@
 package com.example.accesscontrolsystem.model;
 
 
-public enum Departaments {
+public enum Departments {
     BLACK("Black"),
     BLUE("Blue"),
     RED("Red"),
@@ -13,7 +13,7 @@ public enum Departaments {
 
     private final String displayText;
 
-    Departaments(String displayText) {
+    Departments(String displayText) {
         this.displayText = displayText;
     }
 

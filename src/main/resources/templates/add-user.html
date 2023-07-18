@@ -13,12 +13,12 @@
     <!--    menu wyboru-->
 
     <label for="department">Department</label>
-    <select name="departament" id="department" th:field="*{department}">
-        <option value="departament" hidden>select</option>
-        <option value="departament"
-                th:each="departamentOpt : ${T(com.example.accesscontrolsystem.model.Departaments).values()}"
-                th:value="${departamentOpt}"
-                th:text="${departamentOpt.displayText}"
+    <select name="department" id="department" th:field="*{department}">
+        <option value="department" hidden>select</option>
+        <option value="department"
+                th:each="departmentOpt : ${T(com.example.accesscontrolsystem.model.Departments).values()}"
+                th:value="${departmentOpt}"
+                th:text="${departmentOpt.displayText}"
                 ></option>
     </select>
 
