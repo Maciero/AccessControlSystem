@@ -91,16 +91,16 @@ public class UserController {
                     users.sort(Comparator.comparing(UserModel::getId));
                     break;
                 case "name":
-                    users.sort(Comparator.comparing(UserModel::getName));
+                    users.sort(Comparator.comparing(u -> u.getName().toLowerCase()));
                     break;
                 case "surname":
-                    users.sort(Comparator.comparing(UserModel::getSurname));
+                    users.sort(Comparator.comparing(u -> u.getSurname().toLowerCase()));
                     break;
 //                case "buildingModel":
 //                    users.sort(Comparator.comparing(UserModel::getBuildingModel));
 //                    break;
                 case "department":
-                    users.sort(Comparator.comparing(u -> u.getDepartment().getDisplayText()));
+                    users.sort(Comparator.comparing(u -> u.getDepartment().getDisplayText().toLowerCase()));
                     break;
                 default:
                     // Obsłuż nieznany parametr sortowania
@@ -111,5 +111,6 @@ public class UserController {
         model.addAttribute("users", users);
         return "index";
     }
+
 
 }
