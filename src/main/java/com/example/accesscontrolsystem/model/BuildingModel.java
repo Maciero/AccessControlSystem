@@ -25,7 +25,7 @@ public class BuildingModel {
     @Column(name ="name")
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE, mappedBy = "buildingModel")
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE, mappedBy = "building")
     private List<RoomModel> roomModels = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE, mappedBy = "buildingModel")

@@ -1,0 +1,33 @@
+<div>Add room</div>
+<form action="#" th:action="@{/addRoom}"  th:object="${addedRoom}" method="post">
+
+    <label for="name">Name</label>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+    <label for="access">AccessLevel</label>
+    <select name="access" id="access" th:field="*{accessList}">
+        <option value="access" hidden>select</option>
+        <option value="access"
+                th:each="accessL : ${T(com.example.accesscontrolsystem.AccessList).values()}"
+                th:value="${accessL}"
+                th:text="${accessL.toString()}"
+        ></option>
+    </select>
+    <label for="building">Building</label>
+    <select name="building" id="building" th:field="*{building}">
+        <option th:each="building : ${buildingsList}"
+                th:value="building"
+                th:text="${building.getId()}" >
+        </option>
+    </select>
+    <input type="submit" value="Add Room">
+</form>
+<!--
+<select class="form-control" id="dropDownList">
+    <option value="0">select option</option>
+    <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>
+</select>
+-->
+
+
