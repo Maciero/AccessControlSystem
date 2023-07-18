@@ -3,6 +3,7 @@ package com.example.accesscontrolsystem.controller;
 import com.example.accesscontrolsystem.model.BuildingModel;
 import com.example.accesscontrolsystem.model.RoomModel;
 import com.example.accesscontrolsystem.model.UserModel;
+import com.example.accesscontrolsystem.repository.BuildingRepository;
 import com.example.accesscontrolsystem.repository.UserRepository;
 import com.example.accesscontrolsystem.service.BuildingService;
 import lombok.RequiredArgsConstructor;
@@ -21,23 +22,24 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository userRepository;
-//    private final BuildingService buildingService;
+    private final BuildingRepository buildingRepository;
 
     @GetMapping("/")
     public String showUserList(Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "index";
     }
+
     @GetMapping("/signup")
-    public String showSignUpForm(UserModel user,Model model) {
-//        List<BuildingModel> buildingList = buildingService.getBuildingList();
-//        model.addAttribute("buildingsList",buildingList );
+    public String showSignUpForm(UserModel user, Model model) {
+        List<BuildingModel> buildingModels = buildingRepository.findAll();
+        model.addAttribute("buildingModels", buildingModels);
         return "add-user";
     }
 
 
     @PostMapping("/adduser")
-    public String addUser( UserModel user, BindingResult result, Model model) {
+    public String addUser(UserModel user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add-user";
         }
@@ -49,18 +51,23 @@ public class UserController {
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
         UserModel user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-
         model.addAttribute("user", user);
+
+        List<BuildingModel> buildingModels = buildingRepository.findAll();
+        model.addAttribute("buildingModels", buildingModels);
+
         return "update-user";
     }
 
     @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") long id,  UserModel user,
-                              Model model) {
+    public String updateUser(@PathVariable("id") long id, UserModel user,
+                             Model model) {
         model.addAttribute("user", user);
         userRepository.save(user);
+
         return "redirect:/";
     }
+
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") long id, Model model) {
         UserModel user = userRepository.findById(id)
