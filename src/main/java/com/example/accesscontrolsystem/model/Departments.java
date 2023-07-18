@@ -2,14 +2,12 @@ package com.example.accesscontrolsystem.model;
 
 
 public enum Departments {
-    BLACK("Black"),
-    BLUE("Blue"),
-    RED("Red"),
-    YELLOW("Yellow"),
-    GREEN("Green"),
-    ORANGE("Orange"),
-    PURPLE("Purple"),
-    WHITE("White");
+    HUMAN_RESOURCES("Human Resources"),
+    IT("It"),
+    ACCOUNTING_AND_FINANCE("Accounting and Finance"),
+    MARKETING("Marketing"),
+    RESEARCH_AND_DEVELOPMENT("Research and Development"),
+    PRODUCTION("Production");
 
     private final String displayText;
 

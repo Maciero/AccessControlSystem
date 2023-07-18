@@ -19,12 +19,30 @@
                 th:each="departmentOpt : ${T(com.example.accesscontrolsystem.model.Departments).values()}"
                 th:value="${departmentOpt}"
                 th:text="${departmentOpt.displayText}"
-                ></option>
+        ></option>
     </select>
-
+    <p></p>
     <!--    menu wyboru-->
+
+    <!--    menu building-->
+<!--    <label for="building">Building</label>-->
+<!--    <select name="building" id="building" th:field="*{buildingModel}">-->
+<!--        <option th:each="building : ${buildingsList}"-->
+<!--                th:value="building"-->
+<!--                th:text="${building.getName()}" >-->
+<!--        </option>-->
+<!--    </select>-->
+
+
+
+
+    <input type="text" th:field="*{buildingModel}" id="buildingModel" placeholder="BuildingModel">
+    <span th:if="${#fields.hasErrors('buildingModel')}" th:errors="*{buildingModel}"></span>
+
+    <!--    menu building-->
 
     <p></p>
     <input type="submit" value="Add User">
+
 
 </form>

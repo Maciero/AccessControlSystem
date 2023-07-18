@@ -8,6 +8,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Surname</th>
+                <th>Building</th>
                 <th>Department</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -18,6 +19,7 @@
                 <td th:text="${user.id}"></td>
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.surname}"></td>
+                <td th:text="${user.buildingModel}"></td>
                 <td th:text="${user.department}"></td>
                 <td><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></td>
                 <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>
@@ -26,4 +28,8 @@
         </table>
     </div>
     <p><a href="/signup">Add a new user</a></p>
+
+    <br>
+    <p><a  href="/rooms" >Rooms</a></p>
+    <p><a  href="/building" >Buildings</a></p>
 </div>

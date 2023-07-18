@@ -31,6 +31,10 @@ public class BuildingModel {
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE, mappedBy = "buildingModel")
     private List<UserModel> userModels = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }
 
 //    @ElementCollection

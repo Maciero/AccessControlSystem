@@ -24,10 +24,12 @@
                 th:text="${departmentOpt.displayText}"
         ></option>
     </select>
-
+    <p></p>
     <!--    menu wyboru-->
 
-
+    <label for="buildingModel">Building</label>
+    <input type="text" th:field="*{buildingModel}" id="buildingModel" placeholder="BuildingModel">
+    <span th:if="${#fields.hasErrors('buildingModel')}" th:errors="*{buildingModel}"></span>
 
     <p></p>
     <input type="submit" value="Update User">
