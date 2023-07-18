@@ -1,12 +1,23 @@
 package com.example.accesscontrolsystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 
 public enum Departments {
-AAA, BBB
+    BLACK("Black"),
+    BLUE("Blue"),
+    RED("Red"),
+    YELLOW("Yellow"),
+    GREEN("Green"),
+    ORANGE("Orange"),
+    PURPLE("Purple"),
+    WHITE("White");
 
+    private final String displayText;
+
+    Departments(String displayText) {
+        this.displayText = displayText;
+    }
+
+    public String getDisplayText() {
+        return displayText;
+    }
 }
