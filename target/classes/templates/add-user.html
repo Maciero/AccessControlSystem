@@ -10,21 +10,32 @@
     <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
     <p></p>
 
-    <!--    menu wyboru-->
+    <!--    menu wyboru department-->
 
     <label for="department">Department</label>
     <select name="department" id="department" th:field="*{department}">
         <option value="department" hidden>select</option>
-        <option value="department"
-                th:each="departmentOpt : ${T(com.example.accesscontrolsystem.model.Departments).values()}"
-                th:value="${departmentOpt}"
-                th:text="${departmentOpt.displayText}"
-                ></option>
+        <option th:each="departmentOpt : ${T(com.example.accesscontrolsystem.model.Departments).values()}"
+                th:value="${departmentOpt.name()}"
+                th:text="${departmentOpt.getDisplayText()}"></option>
     </select>
 
-    <!--    menu wyboru-->
+    <p></p>
+    <!--    menu wyboru department-->
+
+    <!--    menu wyboru building-->
+    <label for="buildingModel">Building</label>
+    <select name="buildingModel" id="buildingModel">
+        <option value="buildingModel" hidden>select</option>
+        <option th:each="model : ${buildingModels}"
+                th:value="${model.id}"
+                th:text="${model.name}">Wybierz model</option>
+    </select>
+
+    <!--    menu wyboru building-->
 
     <p></p>
     <input type="submit" value="Add User">
+
 
 </form>

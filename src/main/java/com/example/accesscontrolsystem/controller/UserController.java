@@ -1,7 +1,12 @@
 package com.example.accesscontrolsystem.controller;
 
+import com.example.accesscontrolsystem.model.BuildingModel;
+import com.example.accesscontrolsystem.model.RoomModel;
 import com.example.accesscontrolsystem.model.UserModel;
+import com.example.accesscontrolsystem.repository.BuildingRepository;
 import com.example.accesscontrolsystem.repository.UserRepository;
+import com.example.accesscontrolsystem.service.BuildingService;
+import com.example.accesscontrolsystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,8 +14,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -18,18 +25,26 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final BuildingRepository buildingRepository;
+    private final UserService userService;
+
+
     @GetMapping("/")
     public String showUserList(Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "index";
     }
+
     @GetMapping("/signup")
-    public String showSignUpForm(UserModel user) {
+    public String showSignUpForm(UserModel user, Model model) {
+        List<BuildingModel> buildingModels = buildingRepository.findAll();
+        model.addAttribute("buildingModels", buildingModels);
         return "add-user";
     }
 
+
     @PostMapping("/adduser")
-    public String addUser( UserModel user, BindingResult result, Model model) {
+    public String addUser(UserModel user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add-user";
         }
@@ -41,18 +56,23 @@ public class UserController {
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
         UserModel user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-
         model.addAttribute("user", user);
+
+        List<BuildingModel> buildingModels = buildingRepository.findAll();
+        model.addAttribute("buildingModels", buildingModels);
+
         return "update-user";
     }
 
     @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") long id,  UserModel user,
-                              Model model) {
+    public String updateUser(@PathVariable("id") long id, UserModel user,
+                             Model model) {
         model.addAttribute("user", user);
         userRepository.save(user);
+
         return "redirect:/";
     }
+
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") long id, Model model) {
         UserModel user = userRepository.findById(id)
@@ -61,39 +81,36 @@ public class UserController {
         return "redirect:/";
     }
 
+    @GetMapping("/users")
+    public String getUsers(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
+        List<UserModel> users = userService.getUserList();
+
+        if (sortBy != null) {
+            switch (sortBy) {
+                case "id":
+                    users.sort(Comparator.comparing(UserModel::getId));
+                    break;
+                case "name":
+                    users.sort(Comparator.comparing(u -> u.getName().toLowerCase()));
+                    break;
+                case "surname":
+                    users.sort(Comparator.comparing(u -> u.getSurname().toLowerCase()));
+                    break;
+//                case "buildingModel":
+//                    users.sort(Comparator.comparing(UserModel::getBuildingModel));
+//                    break;
+                case "department":
+                    users.sort(Comparator.comparing(u -> u.getDepartment().getDisplayText().toLowerCase()));
+                    break;
+                default:
+                    // Obsłuż nieznany parametr sortowania
+                    break;
+            }
+        }
+
+        model.addAttribute("users", users);
+        return "index";
+    }
+
+
 }
-
-
-//    @GetMapping("/education")
-//    public String getEducationList(Model model) {
-//        List<EducationModel> list = educationService.getEducationList();
-//        model.addAttribute("educationModel", list);
-//        return "education/education";
-//    }
-//
-//    @PostMapping("/education")
-//    public RedirectView postAddEducation(EducationModel education) {
-//        educationService.addEducation(education);
-//        return new RedirectView("/education");
-//    }
-//
-//    @GetMapping("/education/{id}")
-//    public String getTask(@PathVariable("id") Long id, Model model) {
-//
-//        EducationModel task = educationService.getEducationById(id);
-//        model.addAttribute("student");
-//        model.addAttribute("task", task);
-//        return "education/education";
-//    }
-//
-//    @PostMapping("/removeEducation/{id}")
-//    public RedirectView removeEducation(@PathVariable("id") Long id) {
-//        educationService.removeEducation(id);
-//        return new RedirectView("/education");
-//    }
-//
-//    @PostMapping("/editEducation/{id}")
-//    public RedirectView patchEdit(@PathVariable("id") Long id, EducationModel educationModel) {
-//        educationService.saveEditTask(educationModel);
-//        return new RedirectView("/education");
-//    }

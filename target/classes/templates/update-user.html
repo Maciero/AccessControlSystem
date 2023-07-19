@@ -13,7 +13,7 @@
     <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
     <p></p>
 
-    <!--    menu wyboru-->
+    <!--    menu wyboru department-->
 
     <label for="department">Department</label>
     <select name="department" id="department" th:field="*{department}">
@@ -24,10 +24,18 @@
                 th:text="${departmentOpt.displayText}"
         ></option>
     </select>
+    <p></p>
+    <!--    menu wyboru department-->
 
-    <!--    menu wyboru-->
+    <!--    menu wyboru building-->
+    <label for="buildingModel">Building</label>
+    <select name="buildingModel" id="buildingModel" th:field="*{buildingModel}">
+        <option th:each="model : ${buildingModels}"
+                th:value="${model.id}"
+                th:text="${model.name}">Wybierz model</option>
+    </select>
 
-
+    <!--    menu wyboru building-->
 
     <p></p>
     <input type="submit" value="Update User">
