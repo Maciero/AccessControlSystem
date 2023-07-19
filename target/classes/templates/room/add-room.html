@@ -6,7 +6,7 @@
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 
     <label for="access">AccessLevel</label>
-    <select name="access" id="access" th:field="*{accessList}">
+    <select name="access" id="access" th:field="*{getZone}">
         <option value="access" hidden>select</option>
         <option value="access"
                 th:each="accessL : ${T(com.example.accesscontrolsystem.AccessList).values()}"
@@ -15,20 +15,15 @@
         ></option>
     </select>
     <label for="building">Building</label>
-    <input type="text" th:field="*{building.id}" id="building" placeholder="Building">
-<!--    <select id="building" th:field="*{building}">-->
-<!--        <option th:each="building : ${buildingsList}"-->
-<!--                th:value="building.id"-->
-<!--                th:text="${building.getId()}" >-->
-<!--        </option>-->
-<!--    </select>-->
+<!--    <input type="text" th:field="*{building.id}" id="building" placeholder="Building">-->
+    <select name="building" id="building">
+        <option value="buildingModel" hidden>select</option>
+        <option th:each="model : ${buildingsList}"
+                th:value="${model.id}"
+                th:text="${model.name}">Wybierz model</option>
+    </select>
     <input type="submit" value="Add Room">
 </form>
-<!--
-<select class="form-control" id="dropDownList">
-    <option value="0">select option</option>
-    <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>
-</select>
--->
+
 
 

@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,9 +22,11 @@ public class BuildingController {
 
 
     @GetMapping("/building")
-    public String getBuildingList(Model model) {
+    public String getBuildingList(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
         List<BuildingModel> list = buildingService.getBuildingList();
+        buildingService.sortBuildings(list, sortBy);
         model.addAttribute("buildings", list);
+        model.addAttribute("count", buildingService.getBuildingsCount(list));
         return "building/building";
     }
 

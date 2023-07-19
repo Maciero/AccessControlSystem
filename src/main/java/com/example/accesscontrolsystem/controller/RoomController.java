@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,9 +22,11 @@ public class RoomController {
    private final RoomService roomService;
     private final BuildingService buildingService;
     @GetMapping("/rooms")
-    public String getBuildingList(Model model) {
+    public String getRoomList(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
         List<RoomModel> list = roomService.getRoomList();
+        roomService.sortRooms(list, sortBy);
         model.addAttribute("rooms", list);
+        model.addAttribute("count", roomService.getRoomCount(list));
         return "room/room";
     }
     @GetMapping("/addRooms")

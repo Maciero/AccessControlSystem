@@ -1,12 +1,14 @@
 package com.example.accesscontrolsystem.service;
 
 import com.example.accesscontrolsystem.model.BuildingModel;
+import com.example.accesscontrolsystem.model.RoomModel;
 import com.example.accesscontrolsystem.repository.BuildingRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -34,5 +36,25 @@ public class BuildingService {
 
     public void removeBuilding(Long id) {
         buildingRepository.deleteById(id);
+    }
+
+    public void sortBuildings(List<BuildingModel> buildings, String sortBy){
+        if (sortBy != null) {
+            switch (sortBy) {
+                case "id":
+                    buildings.sort(Comparator.comparing(BuildingModel::getId));
+                    break;
+                case "name":
+                    buildings.sort(Comparator.comparing(u -> u.getName().toLowerCase()));
+                    break;
+                default:
+                    // Obsłuż nieznany parametr sortowania
+                    break;
+            }
+        }
+    }
+
+    public String getBuildingsCount(List<BuildingModel> list){
+        return "Total number of building: "+list.size();
     }
 }
