@@ -20,7 +20,6 @@ public class BuildingController {
     private final BuildingService buildingService;
 
 
-
     @GetMapping("/building")
     public String getBuildingList(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
         List<BuildingModel> list = buildingService.getBuildingList();

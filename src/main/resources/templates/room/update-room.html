@@ -8,7 +8,7 @@
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 
     <label for="access">AccessLevel</label>
-    <select name="access" id="access" th:field="*{getZone}">
+    <select name="access" id="access" th:field="*{zone}">
         <option value="access" hidden>select</option>
         <option value="access"
                 th:each="accessL : ${T(com.example.accesscontrolsystem.AccessList).values()}"
@@ -21,6 +21,11 @@
     <input type="text" th:field="*{building.id}" id="building" placeholder="Building">
 
 
-
     <input type="submit" value="Update Room">
 </form>
+<br>
+<h1>Go to:</h1>
+<table cellspacing="15">
+    <th><a href="/rooms">Rooms</a></th>
+
+</table>

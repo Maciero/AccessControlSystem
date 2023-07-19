@@ -19,8 +19,9 @@ import java.util.List;
 @RequiredArgsConstructor
 
 public class RoomController {
-   private final RoomService roomService;
+    private final RoomService roomService;
     private final BuildingService buildingService;
+
     @GetMapping("/rooms")
     public String getRoomList(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
         List<RoomModel> list = roomService.getRoomList();
@@ -29,10 +30,11 @@ public class RoomController {
         model.addAttribute("count", roomService.getRoomCount(list));
         return "room/room";
     }
+
     @GetMapping("/addRooms")
     public String getAddRoom(Model model) {
         List<BuildingModel> buildingList = buildingService.getBuildingList();
-        model.addAttribute("buildingsList",buildingList );
+        model.addAttribute("buildingsList", buildingList);
         model.addAttribute("addedRoom", new RoomModel());
         return "room/add-room";
     }

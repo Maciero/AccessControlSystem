@@ -1,12 +1,12 @@
 <div>Add room</div>
-<form action="#" th:action="@{/addRoom}"  th:object="${addedRoom}" method="post">
+<form action="#" th:action="@{/addRoom}" th:object="${addedRoom}" method="post">
 
     <label for="name">Name</label>
     <input type="text" th:field="*{name}" id="name" placeholder="Name">
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 
-    <label for="access">AccessLevel</label>
-    <select name="access" id="access" th:field="*{getZone}">
+    <label for="access">Security zone</label>
+    <select name="access" id="access" th:field="*{zone}">
         <option value="access" hidden>select</option>
         <option value="access"
                 th:each="accessL : ${T(com.example.accesscontrolsystem.AccessList).values()}"
@@ -15,15 +15,21 @@
         ></option>
     </select>
     <label for="building">Building</label>
-<!--    <input type="text" th:field="*{building.id}" id="building" placeholder="Building">-->
+    <!--    <input type="text" th:field="*{building.id}" id="building" placeholder="Building">-->
     <select name="building" id="building">
         <option value="buildingModel" hidden>select</option>
         <option th:each="model : ${buildingsList}"
                 th:value="${model.id}"
-                th:text="${model.name}">Wybierz model</option>
+                th:text="${model.name}">Wybierz model
+        </option>
     </select>
     <input type="submit" value="Add Room">
 </form>
+<br>
+<h1>Go to:</h1>
+<table cellspacing="15">
+    <th><a href="/rooms">Rooms</a></th>
 
+</table>
 
 

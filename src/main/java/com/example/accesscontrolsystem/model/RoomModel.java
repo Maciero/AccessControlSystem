@@ -27,5 +27,4 @@ public class RoomModel {
     @Enumerated(value = EnumType.STRING)
     private AccessList zone;
 
-
 }

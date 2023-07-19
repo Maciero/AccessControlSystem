@@ -38,7 +38,7 @@ public class BuildingService {
         buildingRepository.deleteById(id);
     }
 
-    public void sortBuildings(List<BuildingModel> buildings, String sortBy){
+    public void sortBuildings(List<BuildingModel> buildings, String sortBy) {
         if (sortBy != null) {
             switch (sortBy) {
                 case "id":
@@ -54,7 +54,7 @@ public class BuildingService {
         }
     }
 
-    public String getBuildingsCount(List<BuildingModel> list){
-        return "Total number of building: "+list.size();
+    public String getBuildingsCount(List<BuildingModel> list) {
+        return "Total number of building: " + list.size();
     }
 }

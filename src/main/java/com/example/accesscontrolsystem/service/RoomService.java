@@ -33,7 +33,7 @@ public class RoomService {
         roomRepository.deleteById(id);
     }
 
-    public void sortRooms(List<RoomModel> rooms,String sortBy){
+    public void sortRooms(List<RoomModel> rooms, String sortBy) {
         if (sortBy != null) {
             switch (sortBy) {
                 case "id":
@@ -43,7 +43,7 @@ public class RoomService {
                     rooms.sort(Comparator.comparing(u -> u.getName().toLowerCase()));
                     break;
                 case "buildingModel":
-                    rooms.sort(Comparator.comparing(e-> e.getBuilding().getId()));
+                    rooms.sort(Comparator.comparing(e -> e.getBuilding().getId()));
                     break;
                 case "zone":
                     rooms.sort(Comparator.comparing(u -> u.getZone().toString().toLowerCase()));
@@ -54,7 +54,8 @@ public class RoomService {
             }
         }
     }
-    public String getRoomCount(List<RoomModel> rooms){
-        return "Total number of rooms: "+rooms.size();
+
+    public String getRoomCount(List<RoomModel> rooms) {
+        return "Total number of rooms: " + rooms.size();
     }
 }
