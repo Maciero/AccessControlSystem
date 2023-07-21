@@ -1,20 +1,14 @@
 <div>Add building</div>
-<form action="#" th:action="@{/addBuilding}"  th:object="${addedBuilding}" method="post">
+<form action="#" th:action="@{/addBuilding}" th:object="${addedBuilding}" method="post">
 
     <label for="name">Name</label>
     <input type="text" th:field="*{name}" id="name" placeholder="Name">
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
     <input type="submit" value="Add Building">
 </form>
-<!--<form action="#" th:action="@{/addBuilding}" th:object="${buildingModel}" method="post">-->
-<!--    <label for="name">Name</label>-->
-<!--    <input type="text" th:field="*{name}" id="name" placeholder="Name">-->
-<!--    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
-<!--    <button name ="submit" type="submit" value="0">Add Building</button>-->
-<!--</form>-->
-<!--<form action="#" th:action="@{/addBuilding}" th:object="${building}">-->
-<!--    <label>Name</label>-->
-<!--    <input type="text" name = "name" th:field ="*{name}">-->
+<br>
+<h1>Go to:</h1>
+<table cellspacing="15">
+    <th><a href="/building">Building</a></th>
 
-<!--    <input type="submit" value="Add Building">-->
-<!--</form>-->
+</table>
