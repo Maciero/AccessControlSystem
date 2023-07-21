@@ -27,12 +27,22 @@ public class UserController {
 
 
     @GetMapping("/")
-    public String showUserList(Model model) {
+    public String showUserList(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
+        List<UserModel> list = userService.getUserList();
+        userService.sortUsers(list, sortBy);
+
+        model.addAttribute("users", list);
+        model.addAttribute("count", userService.getUsersCount(list));
+        return "index";
+    }
+    @GetMapping("/users")
+    public String getUsers(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
         List<UserModel> userList = (List<UserModel>) userRepository.findAll();
+        userService.sortUsers(userList, sortBy);
+
+        model.addAttribute("users", userList);
         model.addAttribute("count", userService.getUsersCount(userList));
 
-//        model.addAttribute("users", userList);
-        model.addAttribute("users", userRepository.findAll());
         return "index";
     }
 
@@ -75,43 +85,12 @@ public class UserController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") long id, Model model) {
-        UserModel user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        userRepository.delete(user);
+    public String deleteUser(@PathVariable("id") long id) {
+        userService.removeUser(id);
+//        UserModel user = userRepository.findById(id)
+//                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+//        userRepository.delete(user);
         return "redirect:/";
     }
-
-    @GetMapping("/users")
-    public String getUsers(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
-        List<UserModel> users = userService.getUserList();
-
-        if (sortBy != null) {
-            switch (sortBy) {
-                case "id":
-                    users.sort(Comparator.comparing(UserModel::getId));
-                    break;
-                case "name":
-                    users.sort(Comparator.comparing(u -> u.getName().toLowerCase()));
-                    break;
-                case "surname":
-                    users.sort(Comparator.comparing(u -> u.getSurname().toLowerCase()));
-                    break;
-//                case "buildingModel":
-//                    users.sort(Comparator.comparing(UserModel::getBuildingModel));
-//                    break;
-                case "department":
-                    users.sort(Comparator.comparing(u -> u.getDepartment().getDisplayText().toLowerCase()));
-                    break;
-                default:
-                    // Obsłuż nieznany parametr sortowania
-                    break;
-            }
-        }
-
-        model.addAttribute("users", users);
-        return "index";
-    }
-
 
 }
