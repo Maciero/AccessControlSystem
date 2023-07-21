@@ -34,4 +34,8 @@ public class UserService {
     public void removeUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    public String getUsersCount(List<UserModel> list) {
+        return "Total number of users: " + list.size();
+    }
 }
