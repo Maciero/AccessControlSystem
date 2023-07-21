@@ -14,7 +14,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-
     public List<UserModel> getUserList() {
         return (List<UserModel>) userRepository.findAll();
     }
@@ -22,7 +21,6 @@ public class UserService {
     public void addUser(UserModel user) {
         userRepository.save(user);
     }
-
 
     public UserModel getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
@@ -33,6 +31,8 @@ public class UserService {
     }
 
     public void removeUser(Long id) {
+        userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         userRepository.deleteById(id);
     }
 

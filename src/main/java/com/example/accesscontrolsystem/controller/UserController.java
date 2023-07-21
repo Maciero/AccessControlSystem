@@ -25,12 +25,10 @@ public class UserController {
     private final BuildingRepository buildingRepository;
     private final UserService userService;
 
-
     @GetMapping("/")
     public String showUserList(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
         List<UserModel> list = userService.getUserList();
         userService.sortUsers(list, sortBy);
-
         model.addAttribute("users", list);
         model.addAttribute("count", userService.getUsersCount(list));
         return "index";
@@ -39,10 +37,8 @@ public class UserController {
     public String getUsers(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
         List<UserModel> userList = (List<UserModel>) userRepository.findAll();
         userService.sortUsers(userList, sortBy);
-
         model.addAttribute("users", userList);
         model.addAttribute("count", userService.getUsersCount(userList));
-
         return "index";
     }
 
@@ -53,13 +49,12 @@ public class UserController {
         return "add-user";
     }
 
-
     @PostMapping("/adduser")
     public String addUser(UserModel user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add-user";
         }
-        userRepository.save(user);
+        userService.addUser(user);
         return "redirect:/";
     }
 
@@ -68,10 +63,8 @@ public class UserController {
         UserModel user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         model.addAttribute("user", user);
-
         List<BuildingModel> buildingModels = buildingRepository.findAll();
         model.addAttribute("buildingModels", buildingModels);
-
         return "update-user";
     }
 
@@ -79,17 +72,13 @@ public class UserController {
     public String updateUser(@PathVariable("id") long id, UserModel user,
                              Model model) {
         model.addAttribute("user", user);
-        userRepository.save(user);
-
+        userService.saveEditUser(user);
         return "redirect:/";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
         userService.removeUser(id);
-//        UserModel user = userRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-//        userRepository.delete(user);
         return "redirect:/";
     }
 
