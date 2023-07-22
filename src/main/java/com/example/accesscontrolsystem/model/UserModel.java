@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -30,12 +33,22 @@ public class UserModel {
     @Column(name = "department")
     private Departments department;
 
-    @ManyToOne
-    @JoinColumn(name = "buildingModel_id")
-    private BuildingModel buildingModel;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "user_building",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "building_id")
+    )
+    private List<BuildingModel> buildingModels = new ArrayList<>();
+
+//    @ManyToOne
+//    @JoinColumn(name = "buildingModel_id")
+//    private BuildingModel buildingModel;
+
+    @ElementCollection(targetClass = AccessList.class, fetch = FetchType.EAGER)
     @Enumerated(value = EnumType.STRING)
-    private AccessList accessList;
+    private List<AccessList> accessList;
 
 
 

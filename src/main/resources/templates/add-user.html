@@ -24,15 +24,39 @@
     <!--    menu wyboru department-->
 
     <!--    menu wyboru building-->
-    <label for="buildingModel">Building</label>
-    <select name="buildingModel" id="buildingModel">
-        <option value="buildingModel" hidden>select</option>
-        <option th:each="model : ${buildingModels}"
-                th:value="${model.id}"
-                th:text="${model.name}">Wybierz model</option>
-    </select>
+
+
+<!--    <label for="departments">Departments:</label>-->
+<!--    <ul id="departments">-->
+<!--        <li th:each="department : ${T(com.example.accesscontrolsystem.model.Departments).values()}">-->
+<!--            <input type="checkbox" th:field="*{departments}" th:value="${department}" th:text="${department}"/>-->
+<!--        </li>-->
+<!--    </ul>-->
+
+
+    <label>Building:</label>
+    <ul id="buildingModels">
+        <li th:each="building : ${buildingModel}"></li>
+    </ul>
+<!--    <div th:each="model, iterStat : ${buildingModels}">-->
+<!--        <input type="checkbox" th:id="${'buildingModel-' + iterStat.index}"-->
+<!--               th:name="${'buildingModels[' + iterStat.index + ']'}" th:value="${model}" />-->
+<!--        <label th:for="${'buildingModel-' + iterStat.index}"-->
+<!--               th:text="${model.name}"></label>-->
+<!--    </div>-->
 
     <!--    menu wyboru building-->
+
+    <!--    menu wyboru access-list-->
+
+    <p></p>
+    <label>Access List:</label>
+    <div th:each="access : ${T(com.example.accesscontrolsystem.AccessList).values()}">
+        <input type="checkbox" th:field="*{accessList}" th:value="${access}" id="${'accessList-' + access}" />
+        <label th:for="${'accessList-' + access}" th:text="${access.name}"></label>
+    </div>
+
+    <!--    menu wyboru access-list-->
 
     <p></p>
     <input type="submit" value="Add User">

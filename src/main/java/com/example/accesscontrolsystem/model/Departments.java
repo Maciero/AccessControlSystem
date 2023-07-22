@@ -7,7 +7,8 @@ public enum Departments {
     ACCOUNTING_AND_FINANCE("Accounting and Finance"),
     MARKETING("Marketing"),
     RESEARCH_AND_DEVELOPMENT("Research and Development"),
-    PRODUCTION("Production");
+    PRODUCTION("Production"),
+    NONE("None");
 
 
     private final String displayText;
