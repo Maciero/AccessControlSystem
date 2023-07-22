@@ -27,25 +27,48 @@ public class AcsController {
     private final AcsService acsService;
 
     @GetMapping("/acs")
-    public String getBuildingList(Model model, @RequestParam Boolean res) {
+    public String getBuildingList(Model model) { //, @RequestParam Boolean res -> trzeba było usunąć bo nie działało get maping na acs tylko za każdym razem trzeba było podać parametr
         List<BuildingModel> listBuildings = buildingService.getBuildingList();
         List<RoomModel> listRoom = roomService.getRoomList();
         List<UserModel> list = userService.getUserList();
         model.addAttribute("buildings", listBuildings);
         model.addAttribute("rooms", listRoom);
         model.addAttribute("users", list);
-        model.addAttribute("res", res);
+
 
         return "acs/acs";
     }
-
-    @PostMapping("/acsCheckBuilding")
-    public String checkBuildings(Model model, RedirectAttributes redirectAttributes){
-        Boolean res = acsService.checkIfUserHasAccessToBuilding(1L, 2L);
-
-        redirectAttributes.addAttribute("res", res);
-        return "redirect:/acs";
+    @PostMapping("/acs")
+    public String postCheckBuilding(@RequestParam Long user, @RequestParam Long room,Model model) {
+        List<RoomModel> listRoom = roomService.getRoomList();
+        List<UserModel> list = userService.getUserList();
+        model.addAttribute("rooms", listRoom);
+        model.addAttribute("users", list);
+        Boolean res = acsService.checkIfUserHasAccessToBuilding(user, room);
+        model.addAttribute("res", res);
+        return "acs/acs";
     }
+//    @PostMapping("/acsCheckBuilding")
+//    public String checkBuildings(@RequestParam Long user, @RequestParam Long room, Model model){ // RedirectAttributes redirectAttributes
+//        Boolean res = acsService.checkIfUserHasAccessToBuilding(1L, 1L);
+//        model.addAttribute("res", res);
+//        return "acs/acs";
+//    }
 
 
 }
+//    @GetMapping("/acsCheckBuilding")
+//    public String getCheckBuilding(Model model) {
+//        List<RoomModel> listRoom = roomService.getRoomList();
+//        List<UserModel> list = userService.getUserList();
+//        model.addAttribute("rooms", listRoom);
+//        model.addAttribute("users", list);
+//
+//        return "acs/check-building";
+//    }
+//    @PostMapping("/acsCheckBuilding")
+//    public String checkBuildings(@RequestParam Long user, @RequestParam Long room, Model model){ // RedirectAttributes redirectAttributes
+//        Boolean res = acsService.checkIfUserHasAccessToBuilding(1L, 1L);
+//        model.addAttribute("res", res);
+//        return "acs/acs";
+//    }
