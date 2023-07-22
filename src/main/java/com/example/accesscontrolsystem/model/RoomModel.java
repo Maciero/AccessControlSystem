@@ -31,7 +31,7 @@ public class RoomModel {
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "room_departments", joinColumns = @JoinColumn(name = "room_id"))
+
     @Column(name = "department")
     private List<Departments> departments;
 }
