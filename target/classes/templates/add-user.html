@@ -25,10 +25,19 @@
 
     <!--    menu wyboru building-->
 
+
     <label>Building:</label>
+    <ul id="buildingModels">
+        <li th:each="building : ${buildingModel}">
+        </li>
+    </ul>
     <div th:each="model, iterStat : ${buildingModels}">
-        <input type="checkbox" th:id="${'buildingModel-' + iterStat.index}" th:name="${'buildingModels[' + iterStat.index + ']'}" th:value="${model}" />
-        <label th:for="${'buildingModel-' + iterStat.index}" th:text="${model.name}"></label>
+        <!-- Przekaż tylko ID budynku jako wartość checkboxa -->
+        <input type="checkbox" th:id="${'buildingModel-' + iterStat.index}"
+               th:name="${'buildingModels[' + iterStat.index + ']'}"
+               th:value="${model.id}" />
+        <label th:for="${'buildingModel-' + iterStat.index}"
+               th:text="${model.name}"></label>
     </div>
 
     <!--    menu wyboru building-->

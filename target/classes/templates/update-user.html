@@ -28,13 +28,20 @@
     <!--    menu wyboru department-->
 
     <!--    menu wyboru building-->
-    <label for="buildingModel">Building</label>
-    <select name="buildingModel" id="buildingModel" th:field="*{buildingModels}">
-        <option th:each="model : ${buildingModels}"
-                th:value="${model.id}"
-                th:text="${model.name}">Wybierz model</option>
-    </select>
 
+    <label>Building:</label>
+    <ul id="buildingModels">
+        <li th:each="building : ${buildingModel}">
+        </li>
+    </ul>
+    <div th:each="model, iterStat : ${buildingModels}">
+        <!-- Przekaż tylko ID budynku jako wartość checkboxa -->
+        <input type="checkbox" th:id="${'buildingModel-' + iterStat.index}"
+               th:name="${'buildingModels[' + iterStat.index + ']'}"
+               th:value="${model.id}" />
+        <label th:for="${'buildingModel-' + iterStat.index}"
+               th:text="${model.name}"></label>
+    </div>
     <!--    menu wyboru building-->
 
     <!--    menu wyboru access-list-->
@@ -42,7 +49,8 @@
     <p></p>
     <label>Access List:</label>
     <div th:each="access : ${T(com.example.accesscontrolsystem.AccessList).values()}">
-        <input type="checkbox" th:field="*{accessList}" th:value="${access}" id="${'accessList-' + access}" />
+        <input type="checkbox" th:field="*{accessList}"
+               th:value="${access}" id="${'accessList-' + access}" />
         <label th:for="${'accessList-' + access}" th:text="${access.name}"></label>
     </div>
 
