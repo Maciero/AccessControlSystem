@@ -8,8 +8,9 @@
                 <th><a th:href="@{/users(sortBy='id')}">ID</a></th>
                 <th><a th:href="@{/users(sortBy='name')}">Name</a></th>
                 <th><a th:href="@{/users(sortBy='surname')}">Surname</a></th>
-                <th><a th:href="@{/users(sortBy='buildingModel')}">Building</a></th>
+                <th><a th:href="@{/users(sortBy='buildingModels')}">Building</a></th>
                 <th><a th:href="@{/users(sortBy='department')}">Department</a></th>
+                <th><a th:href="@{/users(sortBy='accessList')}">Access List</a></th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -19,8 +20,9 @@
                 <td th:text="${user.id}"></td>
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.surname}"></td>
-                <td th:text="${user.buildingModel}"></td>
+                <td th:text="${user.buildingModels}"></td>
                 <td th:text="${user.department.getDisplayText()}"></td>
+                <td th:text="${user.accessList}"></td>
                 <td><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></td>
                 <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>
             </tr>

@@ -29,13 +29,24 @@
 
     <!--    menu wyboru building-->
     <label for="buildingModel">Building</label>
-    <select name="buildingModel" id="buildingModel" th:field="*{buildingModel}">
+    <select name="buildingModel" id="buildingModel" th:field="*{buildingModels}">
         <option th:each="model : ${buildingModels}"
                 th:value="${model.id}"
                 th:text="${model.name}">Wybierz model</option>
     </select>
 
     <!--    menu wyboru building-->
+
+    <!--    menu wyboru access-list-->
+
+    <p></p>
+    <label>Access List:</label>
+    <div th:each="access : ${T(com.example.accesscontrolsystem.AccessList).values()}">
+        <input type="checkbox" th:field="*{accessList}" th:value="${access}" id="${'accessList-' + access}" />
+        <label th:for="${'accessList-' + access}" th:text="${access.name}"></label>
+    </div>
+
+    <!--    menu wyboru access-list-->
 
     <p></p>
     <input type="submit" value="Update User">

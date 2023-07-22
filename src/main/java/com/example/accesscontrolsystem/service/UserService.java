@@ -58,6 +58,9 @@ public class UserService {
                 case "department":
                     users.sort(Comparator.comparing(u -> u.getDepartment().getDisplayText().toLowerCase()));
                     break;
+                case "accessList":
+                    users.sort(Comparator.comparing(user -> user.getAccessList().isEmpty() ? null : user.getAccessList().get(0)));
+                    break;
                 default:
                     // Obsłuż nieznany parametr sortowania
                     break;

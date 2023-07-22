@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
@@ -24,6 +21,8 @@ public class UserController {
     private final UserRepository userRepository;
     private final BuildingRepository buildingRepository;
     private final UserService userService;
+
+
 
     @GetMapping("/")
     public String showUserList(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
@@ -42,6 +41,7 @@ public class UserController {
         return "index";
     }
 
+
     @GetMapping("/signup")
     public String showSignUpForm(UserModel user, Model model) {
         List<BuildingModel> buildingModels = buildingRepository.findAll();
@@ -50,13 +50,19 @@ public class UserController {
     }
 
     @PostMapping("/adduser")
-    public String addUser(UserModel user, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "add-user";
-        }
-        userService.addUser(user);
+    public String addUser(@ModelAttribute("userModel") UserModel userModel, BindingResult result, Model model) {
+        List<BuildingModel> selectedBuildingModels = userModel.getBuildingModels();
+
+//            if (result.hasErrors()) {
+//                return "add-user";
+//            }
+
+            userService.addUser(userModel);
+
         return "redirect:/";
     }
+
+
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {

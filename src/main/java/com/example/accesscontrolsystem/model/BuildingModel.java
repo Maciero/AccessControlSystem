@@ -28,8 +28,11 @@ public class BuildingModel {
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE, mappedBy = "building")
     private List<RoomModel> roomModels = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE, mappedBy = "buildingModel")
+    @ManyToMany(mappedBy = "buildingModels")
     private List<UserModel> userModels = new ArrayList<>();
+
+//    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE, mappedBy = "buildingModel")
+//    private List<UserModel> userModels = new ArrayList<>();
 
     @Override
     public String toString() {
