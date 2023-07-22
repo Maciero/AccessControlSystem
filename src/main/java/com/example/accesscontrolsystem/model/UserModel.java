@@ -1,6 +1,5 @@
 package com.example.accesscontrolsystem.model;
 
-import com.example.accesscontrolsystem.AccessList;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,6 +49,7 @@ public class UserModel {
     @Enumerated(value = EnumType.STRING)
     private List<AccessList> accessList;
 
-
+    @Column(name = "positions")
+    private Positions positions;
 
 }

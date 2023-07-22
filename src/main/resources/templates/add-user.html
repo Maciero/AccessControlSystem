@@ -46,12 +46,26 @@
 
     <p></p>
     <label>Access List:</label>
-    <div th:each="access : ${T(com.example.accesscontrolsystem.AccessList).values()}">
+    <div th:each="access : ${T(com.example.accesscontrolsystem.model.AccessList).values()}">
         <input type="checkbox" th:field="*{accessList}" th:value="${access}" id="${'accessList-' + access}" />
         <label th:for="${'accessList-' + access}" th:text="${access.name}"></label>
     </div>
 
     <!--    menu wyboru access-list-->
+
+    <!--    menu wyboru department-->
+    <p></p>
+
+    <label for="positions">Position</label>
+    <select name="positions" id="positions" th:field="*{positions}">
+        <option value="position" hidden>select</option>
+        <option th:each="positionOpt : ${T(com.example.accesscontrolsystem.model.Positions).values()}"
+                th:value="${positionOpt.name()}"
+                th:text="${positionOpt.getDisplayText()}"></option>
+    </select>
+
+
+    <!--    menu wyboru department-->
 
     <p></p>
     <input type="submit" value="Add User">
