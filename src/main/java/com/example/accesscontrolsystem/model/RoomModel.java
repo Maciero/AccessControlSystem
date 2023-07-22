@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,4 +29,9 @@ public class RoomModel {
     @Enumerated(value = EnumType.STRING)
     private AccessList zone;
 
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "room_departments", joinColumns = @JoinColumn(name = "room_id"))
+    @Column(name = "department")
+    private List<Departments> departments;
 }

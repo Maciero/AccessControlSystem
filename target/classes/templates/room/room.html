@@ -9,6 +9,7 @@
                 <th><a th:href="@{/rooms(sortBy='name')}">Name</a></th>
                 <th><a th:href="@{/rooms(sortBy='buildingModel')}">Building</a></th>
                 <th><a th:href="@{/rooms(sortBy='zone')}">AccessLevel</a></th>
+                <th><a th:href="@{/rooms(sortBy='department')}">Departments</a></th>
             </tr>
             </thead>
             <tbody>
@@ -17,6 +18,7 @@
                 <td th:text="${room.name}"></td>
                  <td th:text="${room.building.getName()}"></td>
                 <td th:text="${room.getZone}"></td>
+                <td th:text="${room.getDepartments()}"></td>
                 <td><a th:href="@{/editRoom/{id}(id=${room.id})}">Edit</a></td>
                  <td><a th:href="@{/deleteRoom/{id}(id=${room.id})}">Delete</a></td>
             </tr>
