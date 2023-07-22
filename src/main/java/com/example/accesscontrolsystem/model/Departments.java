@@ -9,6 +9,7 @@ public enum Departments {
     RESEARCH_AND_DEVELOPMENT("Research and Development"),
     PRODUCTION("Production");
 
+
     private final String displayText;
 
     Departments(String displayText) {

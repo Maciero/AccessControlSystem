@@ -1,0 +1,15 @@
+<h2>ACS</h2>
+<form action="#" th:action="@{/acsCheckBuilding}" method="post">
+    <input type="submit" value="Check Building">
+</form>
+
+<div th:if="${res != null}" th:text="'Result: ' + ${res}"></div>
+
+    <br>
+    <h1>Go to:</h1>
+    <table cellspacing="15">
+        <th><a href="/rooms">Rooms</a></th>
+        <th><a href="/">Users</a></th>
+        <th><a href="/building">Building</a></th>
+    </table>
+</div>
