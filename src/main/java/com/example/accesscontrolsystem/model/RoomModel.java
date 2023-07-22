@@ -1,6 +1,6 @@
 package com.example.accesscontrolsystem.model;
 
-import com.example.accesscontrolsystem.AccessList;
+import com.example.accesscontrolsystem.model.AccessList;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
