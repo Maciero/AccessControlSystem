@@ -50,6 +50,8 @@ public class RoomController {
 
     @GetMapping("editRoom/{id}")
     public String getEditRoom(@PathVariable("id") Long id, Model model) {
+        List<BuildingModel> buildingList = buildingService.getBuildingList();
+        model.addAttribute("buildingsList", buildingList);
         RoomModel roomToEdit = roomService.getRoomById(id);
         model.addAttribute("roomToEdit", roomToEdit);
         return "room/update-room";

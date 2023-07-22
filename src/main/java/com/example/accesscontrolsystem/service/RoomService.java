@@ -48,6 +48,9 @@ public class RoomService {
                 case "zone":
                     rooms.sort(Comparator.comparing(u -> u.getZone().toString().toLowerCase()));
                     break;
+                case "department":
+                    rooms.sort(Comparator.comparing(u -> u.getDepartments().toString().toLowerCase()));
+                    break;
                 default:
                     // Obsłuż nieznany parametr sortowania
                     break;

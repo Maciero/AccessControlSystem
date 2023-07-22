@@ -23,6 +23,13 @@
                 th:text="${model.name}">Wybierz model
         </option>
     </select>
+    <br>
+    <label for="departments">Departments:</label>
+    <ul id="departments">
+        <li th:each="department : ${T(com.example.accesscontrolsystem.model.Departments).values()}">
+            <input type="checkbox" th:field="*{departments}" th:value="${department}" th:text="${department}"/>
+        </li>
+    </ul>
     <input type="submit" value="Add Room">
 </form>
 <br>
