@@ -23,7 +23,6 @@ public class UserController {
     private final UserService userService;
 
 
-
     @GetMapping("/")
     public String showUserList(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
         List<UserModel> list = userService.getUserList();
@@ -32,6 +31,7 @@ public class UserController {
         model.addAttribute("count", userService.getUsersCount(list));
         return "index";
     }
+
     @GetMapping("/users")
     public String getUsers(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
         List<UserModel> userList = (List<UserModel>) userRepository.findAll();
@@ -40,7 +40,6 @@ public class UserController {
         model.addAttribute("count", userService.getUsersCount(userList));
         return "index";
     }
-
 
     @GetMapping("/signup")
     public String showSignUpForm(UserModel user, Model model) {
@@ -57,12 +56,10 @@ public class UserController {
 //                return "add-user";
 //            }
 
-            userService.addUser(userModel);
+        userService.addUser(userModel);
 
         return "redirect:/";
     }
-
-
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
