@@ -34,4 +34,5 @@ public class RoomModel {
 
     @Column(name = "department")
     private List<Departments> departments;
+
 }
