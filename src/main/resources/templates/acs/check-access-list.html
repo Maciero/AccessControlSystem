@@ -1,5 +1,5 @@
 <h2>ACS check access</h2>
-<form action="#" th:action="@{/checkAccess}" method="post">
+<form action="#" th:action="@{/checkAccessForList}" method="post">
     <label for="user">Choose user:</label>
     <ul id="user" >
         <li th:each="user : ${users}">
@@ -10,17 +10,17 @@
     <label for="room">Choose room:</label>
     <ul id="room" >
         <li th:each="room : ${rooms}">
-            <input type="radio" name="roomId" th:value="${room.id}" th:text="${room.id + ' ' + room.name}"/>
+            <input type="checkbox" name="rooms" th:value="${room.id}" th:text="${room.id + ' ' + room.name}"/>
         </li>
     </ul>
 
     <input type="submit" value="Check">
 </form>
 
-<div th:if="${resAccess != null and selectedUser != null and selectedRoom != null}">
+<div th:if="${resAccess != null and selectedUser != null and room != null}">
  <div th:switch="${resAccess}">
-     <p th:case="true" th:text="'Access to '+ ${selectedRoom.name} + ' is granted for user '+ ${selectedUser.name}+'.'"></p>
-     <p th:case="false" th:text="'Access to '+ ${selectedRoom.name} + ' is NOT granted for user '+ ${selectedUser.name}+'.'"></p>
+     <p th:case="true" th:text="'Access to '+ ${room.name} + ' is granted for user '+ ${selectedUser.name}+'.'"></p>
+     <p th:case="false" th:text="'Access to '+ ${room.name} + ' is NOT granted for user '+ ${selectedUser.name}+'.'"></p>
  </div>
 </div>
 

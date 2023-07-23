@@ -25,6 +25,10 @@ public class AcsController {
     private final RoomService roomService;
     private final AcsService acsService;
 
+//    List<BuildingModel> listBuildings = buildingService.getBuildingList();
+//    List<RoomModel> listRoom = roomService.getRoomList();
+//    List<UserModel> list = userService.getUserList();
+
     @GetMapping("/acs")
     public String getBuildingList(Model model) { //, @RequestParam Boolean res -> trzeba było usunąć bo nie działało get maping na acs tylko za każdym razem trzeba było podać parametr
         List<BuildingModel> listBuildings = buildingService.getBuildingList();
@@ -57,30 +61,30 @@ public class AcsController {
     }
 
     @PostMapping("/checkAccessList")
-    public String postCheckAccessLists(@RequestParam Long userId,@RequestParam Long roomId, Model model) {
+    public String postCheckAccessLists(@RequestParam Long userId, @RequestParam Long roomId, Model model) {
         List<RoomModel> listRoom = roomService.getRoomList();
         List<UserModel> list = userService.getUserList();
         model.addAttribute("rooms", listRoom);
         model.addAttribute("users", list);
-        Boolean resAccessList = acsService.checkAccessList(userId,roomId);
+        Boolean resAccessList = acsService.checkAccessList(userId, roomId);
         model.addAttribute("resAccessList", resAccessList);
         return "acs/acs";
     }
 
     @PostMapping("/checkAccessAll")
-    public String postCheckAccessAll(@RequestParam Long userId,@RequestParam Long roomId, Model model) {
+    public String postCheckAccessAll(@RequestParam Long userId, @RequestParam Long roomId, Model model) {
         List<RoomModel> listRoom = roomService.getRoomList();
         List<UserModel> list = userService.getUserList();
         model.addAttribute("rooms", listRoom);
         model.addAttribute("users", list);
-        Boolean resAccess = acsService.checkAccess(userId,roomId);
+        Boolean resAccess = acsService.checkAccess(userId, roomId);
         model.addAttribute("resAccess", resAccess);
         return "acs/acs";
     }
 
     @GetMapping("/checkAccess")
-    public String getCheckAccess(Model model){
-       // List<BuildingModel> listBuildings = buildingService.getBuildingList();
+    public String getCheckAccess(Model model) {
+//        List<BuildingModel> listBuildings = buildingService.getBuildingList();
         List<RoomModel> listRoom = roomService.getRoomList();
         List<UserModel> list = userService.getUserList();
 //        model.addAttribute("buildings", listBuildings);
@@ -89,14 +93,15 @@ public class AcsController {
         return "acs/check-access";
     }
 
+    // <- Metoda sprawdza jednego usera i jeden room ->
     @PostMapping("/checkAccess")
-    public String postCheckAccess(@RequestParam Long userId, @RequestParam Long roomId, Model model){
+    public String postCheckAccess(@RequestParam Long userId, @RequestParam Long roomId, Model model) {
         List<RoomModel> listRoom = roomService.getRoomList();
         List<UserModel> list = userService.getUserList();
         model.addAttribute("rooms", listRoom);
         model.addAttribute("users", list);
 
-        Boolean resAccess = acsService.checkAccess(userId,roomId);
+        Boolean resAccess = acsService.checkAccess(userId, roomId);
         model.addAttribute("resAccess", resAccess);
 
         UserModel selectedUser = userService.getUserById(userId);
@@ -105,35 +110,42 @@ public class AcsController {
         model.addAttribute("selectedRoom", selectedRoom);
         return "acs/check-access";
     }
+    // <- Metody do sprawdzenia jednego usera i listę roomów ->
+    @GetMapping("/checkAccessForList")
+    public String getCheckAccessForList(Model model) {
+//        List<BuildingModel> listBuildings = buildingService.getBuildingList();
+        List<RoomModel> listRoom = roomService.getRoomList();
+        List<UserModel> list = userService.getUserList();
+//        model.addAttribute("buildings", listBuildings);
+        model.addAttribute("rooms", listRoom);
+        model.addAttribute("users", list);
+        return "acs/check-access-list";
+    }
+
+    @PostMapping("/checkAccessForList")
+    public String postCheckAccessForList(@RequestParam Long userId, @RequestParam List<RoomModel> rooms, Model model) {
+        List<RoomModel> listRoom = roomService.getRoomList();
+        List<UserModel> list = userService.getUserList();
+        model.addAttribute("rooms", listRoom);
+        model.addAttribute("users", list);
 
 
+        UserModel selectedUser = userService.getUserById(userId);
+        model.addAttribute("selectedUser", selectedUser);
+        model.addAttribute("selectedRooms", rooms);
 
+        for(RoomModel room : rooms){
+           Boolean resAccess = acsService.checkAccess(userId, room.getId());
+            model.addAttribute("resAccess", resAccess);
+            model.addAttribute("room", room);
+        }
 
-
-
-
-
-//    @PostMapping("/acsCheckBuilding")
-//    public String checkBuildings(@RequestParam Long user, @RequestParam Long room, Model model){ // RedirectAttributes redirectAttributes
-//        Boolean res = acsService.checkIfUserHasAccessToBuilding(1L, 1L);
-//        model.addAttribute("res", res);
-//        return "acs/acs";
-//    }
-
-
+        return "acs/check-access-list";
+    }
 }
-//    @GetMapping("/acsCheckBuilding")
-//    public String getCheckBuilding(Model model) {
-//        List<RoomModel> listRoom = roomService.getRoomList();
-//        List<UserModel> list = userService.getUserList();
-//        model.addAttribute("rooms", listRoom);
-//        model.addAttribute("users", list);
-//
-//        return "acs/check-building";
-//    }
-//    @PostMapping("/acsCheckBuilding")
-//    public String checkBuildings(@RequestParam Long user, @RequestParam Long room, Model model){ // RedirectAttributes redirectAttributes
-//        Boolean res = acsService.checkIfUserHasAccessToBuilding(1L, 1L);
-//        model.addAttribute("res", res);
-//        return "acs/acs";
-//    }
+
+
+
+
+
+
