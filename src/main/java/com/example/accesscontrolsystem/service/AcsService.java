@@ -1,6 +1,7 @@
 package com.example.accesscontrolsystem.service;
 
 import com.example.accesscontrolsystem.model.BuildingModel;
+import com.example.accesscontrolsystem.model.Positions;
 import com.example.accesscontrolsystem.model.RoomModel;
 import com.example.accesscontrolsystem.model.UserModel;
 import com.example.accesscontrolsystem.repository.AcsRepository;
@@ -46,8 +47,16 @@ public class AcsService {
         } else {
             return false;
         }
+    }
 
-
+    public boolean checkPositionUser(Long userId){
+        UserModel user = userService.getUserById(userId);
+        if (user.getPositions() == Positions.MANAGER){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
 
