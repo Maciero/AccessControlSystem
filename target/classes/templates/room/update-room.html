@@ -11,7 +11,7 @@
     <select name="access" id="access" th:field="*{zone}">
         <option value="access" hidden>select</option>
         <option value="access"
-                th:each="accessL : ${T(com.example.accesscontrolsystem.AccessList).values()}"
+                th:each="accessL : ${T(com.example.accesscontrolsystem.model.AccessList).values()}"
                 th:value="${accessL}"
                 th:text="${accessL.toString()}"
         ></option>
