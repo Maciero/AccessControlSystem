@@ -33,6 +33,7 @@ public class RoomModel {
     @Enumerated(EnumType.STRING)
     @Column(name = "department")
     private List<Departments> departments;
+
 }
 /*
  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
