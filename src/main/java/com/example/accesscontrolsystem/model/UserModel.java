@@ -1,6 +1,8 @@
 package com.example.accesscontrolsystem.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,7 @@ public class UserModel {
     @Column(name = "surname")
     private String surname;
 
+    @NotNull(message = "Department is required")
     @Column(name = "department")
     private Departments department;
 
@@ -41,14 +44,13 @@ public class UserModel {
     )
     private List<BuildingModel> buildingModels = new ArrayList<>();
 
-//    @ManyToOne
-//    @JoinColumn(name = "buildingModel_id")
-//    private BuildingModel buildingModel;
-
+    @NotEmpty(message = "Access List is required")
     @ElementCollection(targetClass = AccessList.class, fetch = FetchType.EAGER)
     @Enumerated(value = EnumType.STRING)
     private List<AccessList> accessList;
 
+
+    @NotNull(message = "Position is required")
     @Column(name = "positions")
     private Positions positions;
 

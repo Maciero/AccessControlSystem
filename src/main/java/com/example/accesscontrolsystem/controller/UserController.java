@@ -5,6 +5,7 @@ import com.example.accesscontrolsystem.model.UserModel;
 import com.example.accesscontrolsystem.repository.BuildingRepository;
 import com.example.accesscontrolsystem.repository.UserRepository;
 import com.example.accesscontrolsystem.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,12 +50,12 @@ public class UserController {
     }
 
     @PostMapping("/adduser")
-    public String addUser(@ModelAttribute("userModel") UserModel userModel, BindingResult result, Model model) {
-        List<BuildingModel> selectedBuildingModels = userModel.getBuildingModels();
-
-//            if (result.hasErrors()) {
-//                return "add-user";
-//            }
+    public String addUser(@Valid UserModel userModel, BindingResult result, Model model) {
+        List<BuildingModel> buildingModels = buildingRepository.findAll();
+        model.addAttribute("buildingModels", buildingModels);
+            if (result.hasErrors()) {
+                return "add-user";
+            }
 
         userService.addUser(userModel);
 
