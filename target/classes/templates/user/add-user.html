@@ -1,3 +1,13 @@
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+
 <form action="#" th:action="@{/adduser}" th:object="${userModel}" method="post">
 
     <label for="name">Name</label>
@@ -18,6 +28,12 @@
                 th:value="${departmentOpt.name()}"
                 th:text="${departmentOpt.getDisplayText()}"></option>
     </select>
+
+    <p  th:if="${#fields.hasErrors('department')}"
+        th:class="${#fields.hasErrors('department')}? error">
+        Department is required</p>
+
+<!--    <p th:if="${#fields.hasErrors('department')}">Department is required</p>-->
 
     <p></p>
     <!--    menu wyboru department-->
@@ -45,6 +61,10 @@
         <input type="checkbox" th:field="*{accessList}" th:value="${access}" id="${'accessList-' + access}" />
         <label th:for="${'accessList-' + access}" th:text="${access.name}"></label>
     </div>
+
+    <p  th:if="${#fields.hasErrors('accessList')}"
+        th:class="${#fields.hasErrors('accessList')}? error">
+        Access list was not selected</p>
     <!--    menu wyboru access-list-->
 
     <!--    menu wyboru position-->
@@ -56,6 +76,10 @@
                 th:value="${positionOpt.name()}"
                 th:text="${positionOpt.getDisplayText()}"></option>
     </select>
+
+    <p  th:if="${#fields.hasErrors('positions')}"
+        th:class="${#fields.hasErrors('positions')}? error">
+        Position is required</p>
     <!--    menu wyboru position-->
 
     <p></p>
