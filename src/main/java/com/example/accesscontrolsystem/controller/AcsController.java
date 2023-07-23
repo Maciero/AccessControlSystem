@@ -67,8 +67,8 @@ public class AcsController {
         return "acs/acs";
     }
 
-    @PostMapping("/checkAccess")
-    public String postCheckAccess(@RequestParam Long userId,@RequestParam Long roomId, Model model) {
+    @PostMapping("/checkAccessAll")
+    public String postCheckAccessAll(@RequestParam Long userId,@RequestParam Long roomId, Model model) {
         List<RoomModel> listRoom = roomService.getRoomList();
         List<UserModel> list = userService.getUserList();
         model.addAttribute("rooms", listRoom);
@@ -77,6 +77,42 @@ public class AcsController {
         model.addAttribute("resAccess", resAccess);
         return "acs/acs";
     }
+
+    @GetMapping("/checkAccess")
+    public String getCheckAccess(Model model){
+       // List<BuildingModel> listBuildings = buildingService.getBuildingList();
+        List<RoomModel> listRoom = roomService.getRoomList();
+        List<UserModel> list = userService.getUserList();
+//        model.addAttribute("buildings", listBuildings);
+        model.addAttribute("rooms", listRoom);
+        model.addAttribute("users", list);
+        return "acs/check-access";
+    }
+
+    @PostMapping("/checkAccess")
+    public String postCheckAccess(@RequestParam Long userId, @RequestParam Long roomId, Model model){
+        List<RoomModel> listRoom = roomService.getRoomList();
+        List<UserModel> list = userService.getUserList();
+        model.addAttribute("rooms", listRoom);
+        model.addAttribute("users", list);
+
+        Boolean resAccess = acsService.checkAccess(userId,roomId);
+        model.addAttribute("resAccess", resAccess);
+
+        UserModel selectedUser = userService.getUserById(userId);
+        RoomModel selectedRoom = roomService.getRoomById(roomId);
+        model.addAttribute("selectedUser", selectedUser);
+        model.addAttribute("selectedRoom", selectedRoom);
+        return "acs/check-access";
+    }
+
+
+
+
+
+
+
+
 //    @PostMapping("/acsCheckBuilding")
 //    public String checkBuildings(@RequestParam Long user, @RequestParam Long room, Model model){ // RedirectAttributes redirectAttributes
 //        Boolean res = acsService.checkIfUserHasAccessToBuilding(1L, 1L);
