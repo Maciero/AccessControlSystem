@@ -20,23 +20,33 @@ public class AcsService {
     private final AcsRepository acsRepository;
 
 
-     /*
+    /*
 
-     ZAŁOŻENIA DO METOD
-    void  checkAccess(){
-    if(checkIfUserHasAccessToBuilding) true{
+    ZAŁOŻENIA DO METOD
+   void  checkAccess(){
+   if(checkIfUserHasAccessToBuilding) true{
 
 
-    to sprawdza strefy z access listy i sprawdza departamenty{
-     1)   stwórzenie enuma ze stanowiskami i powiązanie go z userem (dyrektor, regular), natępnie metoda która sprawdza stanowisko i jak jest dyrektor to zwraca true(przyznaje dostęp)
-    2) metoda która porówna accesslisty user i accessListe roomu -> musi być true żeby wszedł
+   to sprawdza strefy z access listy i sprawdza departamenty{
+    1)   stwórzenie enuma ze stanowiskami i powiązanie go z userem (dyrektor, regular), natępnie metoda która sprawdza stanowisko i jak jest dyrektor to zwraca true(przyznaje dostęp)
+   2) metoda która porówna accesslisty user i accessListe roomu -> musi być true żeby wszedł
 
-    Dodatek 3) Lista nadpisań które pozwolą użytkownikowi na dostęp do pomieszczenia niezależnie od zdefiniowanych accessList
+   Dodatek 3) Lista nadpisań które pozwolą użytkownikowi na dostęp do pomieszczenia niezależnie od zdefiniowanych accessList
 
-    }
-      */
-    public boolean checkAccess(){
-        return false;
+   }
+     */
+    public boolean checkAccess(Long userId, Long roomId) {
+        UserModel user = userService.getUserById(userId);
+        RoomModel room = roomService.getRoomById(roomId);
+        if (checkPositionUser(userId)) {
+            return true;
+        } else {
+            if (checkAccessList(userId, roomId) == true && checkIfUserHasAccessToBuilding(userId, roomId) == true) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     public boolean checkIfUserHasAccessToBuilding(Long userId, Long roomId) {
@@ -50,22 +60,21 @@ public class AcsService {
         }
     }
 
-    public boolean checkPositionUser(Long userId){
+    public boolean checkPositionUser(Long userId) {
         UserModel user = userService.getUserById(userId);
-        if (user.getPositions() == Positions.MANAGER){
+        if (user.getPositions() == Positions.MANAGER) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-    public boolean checkAccessList(Long userId, Long roomId){
+    public boolean checkAccessList(Long userId, Long roomId) {
         UserModel user = userService.getUserById(userId);
         RoomModel room = roomService.getRoomById(roomId);
-        if(user.getAccessList().contains(room.getZone())){
+        if (user.getAccessList().contains(room.getZone())) {
             return true;
-        } else{
+        } else {
             return false;
         }
     }

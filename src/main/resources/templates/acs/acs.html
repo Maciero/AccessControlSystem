@@ -52,8 +52,26 @@
         </select>
         <input type="submit" value="Check AccessList">
     </form>
-    <div th:if="${resAccessList != null}" th:text="'Building check result: ' + ${resAccessList}"></div>
+    <div th:if="${resAccessList != null}" th:text="'AccessList check result: ' + ${resAccessList}"></div>
 
+    <br>
+    <label for="checkAccess">Access Check</label>
+    <form action="#" th:action="@{/checkAccess}" method="post" id="checkAccess">
+        <label for="user4">User</label>
+        <select name="userId" id="user4">
+            <option value="user" hidden>select</option>
+            <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.id}"></option>
+        </select>
+
+        </select>
+        <label for="room3">Room</label>
+        <select name="roomId" id="room3">
+            <option value="room" hidden>select</option>
+            <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.name}"></option>
+        </select>
+        <input type="submit" value="Check AccessList">
+    </form>
+    <div th:if="${resAccess != null}" th:text="'Access(All Conditions) check result: ' + ${resAccess}"></div>
 <br>
     <th><a href="/acs">Reset</a></th>
     <br>
