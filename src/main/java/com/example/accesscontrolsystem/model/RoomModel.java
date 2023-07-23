@@ -29,17 +29,9 @@ public class RoomModel {
     @Enumerated(value = EnumType.STRING)
     private AccessList zone;
 
-    @ElementCollection(targetClass = Departments.class, fetch = FetchType.EAGER)
+    @ElementCollection
     @Enumerated(EnumType.STRING)
+
     @Column(name = "department")
     private List<Departments> departments;
 }
-/*
- @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "user_building",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "building_id")
-    )
-
- */
