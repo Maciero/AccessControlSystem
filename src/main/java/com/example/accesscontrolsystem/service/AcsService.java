@@ -1,6 +1,7 @@
 package com.example.accesscontrolsystem.service;
 
 import com.example.accesscontrolsystem.model.BuildingModel;
+import com.example.accesscontrolsystem.model.Positions;
 import com.example.accesscontrolsystem.model.RoomModel;
 import com.example.accesscontrolsystem.model.UserModel;
 import com.example.accesscontrolsystem.repository.AcsRepository;
@@ -34,20 +35,39 @@ public class AcsService {
 
     }
       */
-
+    public boolean checkAccess(){
+        return false;
+    }
 
     public boolean checkIfUserHasAccessToBuilding(Long userId, Long roomId) {
         UserModel user = userService.getUserById(userId);
         RoomModel room = roomService.getRoomById(roomId);
         List<BuildingModel> userBuildingList = user.getBuildingModels();
-        System.out.println(userBuildingList);
         if (userBuildingList.contains(room.getBuilding())) {
             return true;
         } else {
             return false;
         }
+    }
 
+    public boolean checkPositionUser(Long userId){
+        UserModel user = userService.getUserById(userId);
+        if (user.getPositions() == Positions.MANAGER){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
+    public boolean checkAccessList(Long userId, Long roomId){
+        UserModel user = userService.getUserById(userId);
+        RoomModel room = roomService.getRoomById(roomId);
+        if(user.getAccessList().contains(room.getZone())){
+            return true;
+        } else{
+            return false;
+        }
     }
 }
 

@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -34,18 +33,37 @@ public class AcsController {
         model.addAttribute("buildings", listBuildings);
         model.addAttribute("rooms", listRoom);
         model.addAttribute("users", list);
-
-
         return "acs/acs";
     }
-    @PostMapping("/acs")
-    public String postCheckBuilding(@RequestParam Long user, @RequestParam Long room,Model model) {
+
+    @PostMapping("/checkBuilding")
+    public String postCheckBuilding(@RequestParam Long userId, @RequestParam Long roomId, Model model) {
         List<RoomModel> listRoom = roomService.getRoomList();
         List<UserModel> list = userService.getUserList();
         model.addAttribute("rooms", listRoom);
         model.addAttribute("users", list);
-        Boolean res = acsService.checkIfUserHasAccessToBuilding(user, room);
-        model.addAttribute("res", res);
+        Boolean resBuilding = acsService.checkIfUserHasAccessToBuilding(userId, roomId);
+        model.addAttribute("resBuilding", resBuilding);
+        return "acs/acs";
+    }
+
+    @PostMapping("/checkPosition")
+    public String postCheckPosition(@RequestParam Long userId, Model model) {
+        List<UserModel> list = userService.getUserList();
+        model.addAttribute("users", list);
+        Boolean resPosition = acsService.checkPositionUser(userId);
+        model.addAttribute("resPosition", resPosition);
+        return "acs/acs";
+    }
+
+    @PostMapping("/checkAccessList")
+    public String postCheckAccessLists(@RequestParam Long userId,@RequestParam Long roomId, Model model) {
+        List<RoomModel> listRoom = roomService.getRoomList();
+        List<UserModel> list = userService.getUserList();
+        model.addAttribute("rooms", listRoom);
+        model.addAttribute("users", list);
+        Boolean resAccessList = acsService.checkAccessList(userId,roomId);
+        model.addAttribute("resAccessList", resAccessList);
         return "acs/acs";
     }
 //    @PostMapping("/acsCheckBuilding")
