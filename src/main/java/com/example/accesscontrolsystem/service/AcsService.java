@@ -35,13 +35,14 @@ public class AcsService {
 
     }
       */
-
+    public boolean checkAccess(){
+        return false;
+    }
 
     public boolean checkIfUserHasAccessToBuilding(Long userId, Long roomId) {
         UserModel user = userService.getUserById(userId);
         RoomModel room = roomService.getRoomById(roomId);
         List<BuildingModel> userBuildingList = user.getBuildingModels();
-        System.out.println(userBuildingList);
         if (userBuildingList.contains(room.getBuilding())) {
             return true;
         } else {
@@ -55,6 +56,16 @@ public class AcsService {
             return true;
         }
         else {
+            return false;
+        }
+    }
+
+    public boolean checkAccessList(Long userId, Long roomId){
+        UserModel user = userService.getUserById(userId);
+        RoomModel room = roomService.getRoomById(roomId);
+        if(user.getAccessList().contains(room.getZone())){
+            return true;
+        } else{
             return false;
         }
     }
