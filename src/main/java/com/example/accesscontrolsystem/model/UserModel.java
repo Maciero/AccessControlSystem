@@ -35,8 +35,13 @@ public class UserModel {
     @Column(name = "department")
     private Departments department;
 
+<<<<<<< Updated upstream
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+=======
+//CascadeType.REMOVE przy usuwaniu usera z przypisanym budynkiem usuwa rowniez budynek
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,})
+>>>>>>> Stashed changes
     @JoinTable(
             name = "user_building",
             joinColumns = @JoinColumn(name = "user_id"),

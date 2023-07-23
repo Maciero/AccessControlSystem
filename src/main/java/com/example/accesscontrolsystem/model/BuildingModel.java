@@ -28,7 +28,12 @@ public class BuildingModel {
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE, mappedBy = "building")
     private List<RoomModel> roomModels = new ArrayList<>();
 
+<<<<<<< Updated upstream
     @ManyToMany(mappedBy = "buildingModels")
+=======
+    //CascadeType.REMOVE przy usuwaniu budynku  rowniez uzytkownika
+    @ManyToMany(mappedBy = "buildingModels", cascade = CascadeType.REMOVE)
+>>>>>>> Stashed changes
     private List<UserModel> userModels = new ArrayList<>();
 
 //    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE, mappedBy = "buildingModel")
