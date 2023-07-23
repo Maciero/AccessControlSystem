@@ -36,7 +36,7 @@ public class UserModel {
     private Departments department;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_building",
             joinColumns = @JoinColumn(name = "user_id"),
