@@ -66,6 +66,17 @@ public class AcsController {
         model.addAttribute("resAccessList", resAccessList);
         return "acs/acs";
     }
+
+    @PostMapping("/checkAccess")
+    public String postCheckAccess(@RequestParam Long userId,@RequestParam Long roomId, Model model) {
+        List<RoomModel> listRoom = roomService.getRoomList();
+        List<UserModel> list = userService.getUserList();
+        model.addAttribute("rooms", listRoom);
+        model.addAttribute("users", list);
+        Boolean resAccess = acsService.checkAccess(userId,roomId);
+        model.addAttribute("resAccess", resAccess);
+        return "acs/acs";
+    }
 //    @PostMapping("/acsCheckBuilding")
 //    public String checkBuildings(@RequestParam Long user, @RequestParam Long room, Model model){ // RedirectAttributes redirectAttributes
 //        Boolean res = acsService.checkIfUserHasAccessToBuilding(1L, 1L);
