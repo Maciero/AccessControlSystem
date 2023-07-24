@@ -6,43 +6,62 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/login")
-                            .permitAll().anyRequest()
-                            .authenticated();
+                    auth.requestMatchers("/login").permitAll()
+                            .requestMatchers("/**").authenticated();
                 })
-                .formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/", true))
-                .logout(logout -> logout.logoutSuccessUrl("/login"))
-                .csrf(i->i.disable());
-
+                .formLogin(login -> login.permitAll())
+                .logout(logout -> logout.logoutSuccessUrl("/"));
         return http.build();
     }
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-        var authManager = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authManager.inMemoryAuthentication().withUser("user").password("password").roles("USER");
-        return authManager.build();
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .inMemoryAuthentication()
+                .withUser("user")
+                .password("password").roles("USER")
+                .and().and()
+                .build();
     }
 
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("user").password("password").roles("USER");
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
+
 
 //    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        // For simplicity, using NoOpPasswordEncoder. In a real application, use a strong password encoder.
-//        return NoOpPasswordEncoder.getInstance();
+//    protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
+//
+//        http.authorizeHttpRequests(auth -> {
+//                    auth.requestMatchers("/login")
+//                            .permitAll().anyRequest()
+//                            .authenticated();
+//                })
+//                .formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/", true))
+//                .logout(logout -> logout.logoutSuccessUrl("/login"))
+//                .csrf(i->i.disable());
+//
+//        return http.build();
+//    }
+//
+//    @Bean
+//    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+//        var authManager = http.getSharedObject(AuthenticationManagerBuilder.class);
+//        authManager.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+//        return authManager.build();
 //    }
 }
