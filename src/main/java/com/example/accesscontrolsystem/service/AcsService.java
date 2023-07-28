@@ -18,6 +18,7 @@ public class AcsService {
     private final UserService userService;
     private final RoomService roomService;
     private final AcsRepository acsRepository;
+    private final AccessCheckResultService accessCheckResultService;
 
 
     /*
@@ -35,16 +36,24 @@ public class AcsService {
 
    }
      */
-    public boolean checkAccess(Long userId, Long roomId) {
+    public String checkAccess(Long userId, Long roomId) {   //'Access to '+ ${room.name} + ' is granted for user '+ ${selectedUser.name}+'.'"></p>
         UserModel user = userService.getUserById(userId);
         RoomModel room = roomService.getRoomById(roomId);
         if (checkPositionUser(userId)) {
-            return true;
+            return "Access to " + room.getName() + " is granted for user " + user.getName() + ". User has access everywhere.";
         } else {
-            if (checkAccessList(userId, roomId) == true && checkIfUserHasAccessToBuilding(userId, roomId) == true) {
-                return true;
+            if (checkAccessList(userId, roomId) && checkIfUserHasAccessToBuilding(userId, roomId)) {
+               return  "Access to " + room.getName() + " is granted for user " + user.getName() + ".";
             } else {
-                return false;
+                if(!checkAccessList(userId, roomId) && !checkIfUserHasAccessToBuilding(userId, roomId)){
+                    return "Access to " + room.getName() + " is not granted for user " + user.getName() + ". Building and access list for this user is noncompatible.";
+                } else if (!checkAccessList(userId, roomId) && checkIfUserHasAccessToBuilding(userId, roomId)){
+                   return  "Access to " + room.getName() + " is not granted for user " + user.getName() + ". Access list for this user is noncompatible.";
+                } else if (checkAccessList(userId, roomId) && !checkIfUserHasAccessToBuilding(userId, roomId)){
+                    return  "Access to " + room.getName() + " is not granted for user " + user.getName() + ". Building for this user is noncompatible.";
+                } else{
+                    return "Not checked";
+                }
             }
         }
     }

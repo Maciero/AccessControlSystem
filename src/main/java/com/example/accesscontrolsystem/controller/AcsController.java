@@ -1,12 +1,10 @@
 package com.example.accesscontrolsystem.controller;
 
+import com.example.accesscontrolsystem.model.AccessCheckResultModel;
 import com.example.accesscontrolsystem.model.BuildingModel;
 import com.example.accesscontrolsystem.model.RoomModel;
 import com.example.accesscontrolsystem.model.UserModel;
-import com.example.accesscontrolsystem.service.AcsService;
-import com.example.accesscontrolsystem.service.BuildingService;
-import com.example.accesscontrolsystem.service.RoomService;
-import com.example.accesscontrolsystem.service.UserService;
+import com.example.accesscontrolsystem.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,6 +23,8 @@ public class AcsController {
     private final UserService userService;
     private final RoomService roomService;
     private final AcsService acsService;
+    private final AccessCheckResultService accessCheckResultService;
+
 
 //    List<BuildingModel> listBuildings = buildingService.getBuildingList();
 //    List<RoomModel> listRoom = roomService.getRoomList();
@@ -77,7 +78,7 @@ public class AcsController {
         List<UserModel> list = userService.getUserList();
         model.addAttribute("rooms", listRoom);
         model.addAttribute("users", list);
-        Boolean resAccess = acsService.checkAccess(userId, roomId);
+        String resAccess = acsService.checkAccess(userId, roomId);
         model.addAttribute("resAccess", resAccess);
         return "acs/acs";
     }
@@ -101,7 +102,7 @@ public class AcsController {
         model.addAttribute("rooms", listRoom);
         model.addAttribute("users", list);
 
-        Boolean resAccess = acsService.checkAccess(userId, roomId);
+        String resAccess = acsService.checkAccess(userId, roomId);
         model.addAttribute("resAccess", resAccess);
 
         UserModel selectedUser = userService.getUserById(userId);
@@ -126,8 +127,10 @@ public class AcsController {
     public String postCheckAccessForList(@RequestParam Long userId, @RequestParam List<RoomModel> rooms, Model model) {
         List<RoomModel> listRoom = roomService.getRoomList();
         List<UserModel> list = userService.getUserList();
+        List<String> results = new ArrayList<>();
         model.addAttribute("rooms", listRoom);
         model.addAttribute("users", list);
+        model.addAttribute("results", results);
 
 
         UserModel selectedUser = userService.getUserById(userId);
@@ -135,7 +138,11 @@ public class AcsController {
         model.addAttribute("selectedRooms", rooms);
 
         for(RoomModel room : rooms){
-           Boolean resAccess = acsService.checkAccess(userId, room.getId());
+           String resAccess = acsService.checkAccess(userId, room.getId());
+           results.add(resAccess);
+            AccessCheckResultModel accessCheckResult = new AccessCheckResultModel();
+            accessCheckResult.setDescription(resAccess);
+            accessCheckResultService.addAccessCheckResult(accessCheckResult);
             model.addAttribute("resAccess", resAccess);
             model.addAttribute("room", room);
         }

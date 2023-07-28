@@ -18,10 +18,9 @@
 </form>
 
 <div th:if="${resAccess != null and selectedUser != null and selectedRoom != null}">
- <div th:switch="${resAccess}">
-     <p th:case="true" th:text="'Access to '+ ${selectedRoom.name} + ' is granted for user '+ ${selectedUser.name}+'.'"></p>
-     <p th:case="false" th:text="'Access to '+ ${selectedRoom.name} + ' is NOT granted for user '+ ${selectedUser.name}+'.'"></p>
- </div>
+    <div th:text="${resAccess}">
+
+    </div>
 </div>
 
 

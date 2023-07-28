@@ -1,6 +1,5 @@
 package com.example.accesscontrolsystem.model;
 
-import com.example.accesscontrolsystem.model.AccessList;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,5 +33,11 @@ public class RoomModel {
 
     @Column(name = "department")
     private List<Departments> departments;
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
 
 }
