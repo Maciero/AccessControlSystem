@@ -25,13 +25,8 @@ public class AcsController {
     private final AcsService acsService;
     private final AccessCheckResultService accessCheckResultService;
 
-
-//    List<BuildingModel> listBuildings = buildingService.getBuildingList();
-//    List<RoomModel> listRoom = roomService.getRoomList();
-//    List<UserModel> list = userService.getUserList();
-
     @GetMapping("/acs")
-    public String getBuildingList(Model model) { //, @RequestParam Boolean res -> trzeba było usunąć bo nie działało get maping na acs tylko za każdym razem trzeba było podać parametr
+    public String getAcs(Model model) { //, @RequestParam Boolean res -> trzeba było usunąć bo nie działało get maping na acs tylko za każdym razem trzeba było podać parametr
         List<BuildingModel> listBuildings = buildingService.getBuildingList();
         List<RoomModel> listRoom = roomService.getRoomList();
         List<UserModel> list = userService.getUserList();
@@ -41,6 +36,7 @@ public class AcsController {
         return "acs/acs";
     }
 
+    // METODY SPRAWDZAJĄCE POSZCZEGÓLNE WARUNKI DOSTĘPU (WYNIK SPRAWDZENIA NIE JEST ZAPISYWANY)
     @PostMapping("/checkBuilding")
     public String postCheckBuilding(@RequestParam Long userId, @RequestParam Long roomId, Model model) {
         List<RoomModel> listRoom = roomService.getRoomList();
@@ -83,66 +79,37 @@ public class AcsController {
         return "acs/acs";
     }
 
+    // METODY DO SPRAWDZANIA DOSTĘPU DLA JEDNEGO UŻYTKOWNIKA I LISTY POMIESZCZEŃ (WYNIK ZAPISYWANY DO BAZY DANYCH)
     @GetMapping("/checkAccess")
-    public String getCheckAccess(Model model) {
-//        List<BuildingModel> listBuildings = buildingService.getBuildingList();
-        List<RoomModel> listRoom = roomService.getRoomList();
-        List<UserModel> list = userService.getUserList();
-//        model.addAttribute("buildings", listBuildings);
-        model.addAttribute("rooms", listRoom);
-        model.addAttribute("users", list);
-        return "acs/check-access";
-    }
-
-    // <- Metoda sprawdza jednego usera i jeden room ->
-    @PostMapping("/checkAccess")
-    public String postCheckAccess(@RequestParam Long userId, @RequestParam Long roomId, Model model) {
-        List<RoomModel> listRoom = roomService.getRoomList();
-        List<UserModel> list = userService.getUserList();
-        model.addAttribute("rooms", listRoom);
-        model.addAttribute("users", list);
-
-        String resAccess = acsService.checkAccess(userId, roomId);
-        model.addAttribute("resAccess", resAccess);
-
-        UserModel selectedUser = userService.getUserById(userId);
-        RoomModel selectedRoom = roomService.getRoomById(roomId);
-        model.addAttribute("selectedUser", selectedUser);
-        model.addAttribute("selectedRoom", selectedRoom);
-        return "acs/check-access";
-    }
-    // <- Metody do sprawdzenia jednego usera i listę roomów ->
-    @GetMapping("/checkAccessForList")
     public String getCheckAccessForList(Model model) {
-//        List<BuildingModel> listBuildings = buildingService.getBuildingList();
         List<RoomModel> listRoom = roomService.getRoomList();
         List<UserModel> list = userService.getUserList();
-//        model.addAttribute("buildings", listBuildings);
         model.addAttribute("rooms", listRoom);
         model.addAttribute("users", list);
         return "acs/check-access-list";
     }
 
-    @PostMapping("/checkAccessForList")
+    @PostMapping("/checkAccess")
     public String postCheckAccessForList(@RequestParam Long userId, @RequestParam List<RoomModel> rooms, Model model) {
         List<RoomModel> listRoom = roomService.getRoomList();
         List<UserModel> list = userService.getUserList();
-        List<String> results = new ArrayList<>();
+        List<String> results = new ArrayList<>();                                       //-> lista wyników tymczasowa do wyświetlenia ich na stronie
+
+        UserModel selectedUser = userService.getUserById(userId);                       //-> wybrany user do sprawdzenia
+
         model.addAttribute("rooms", listRoom);
         model.addAttribute("users", list);
         model.addAttribute("results", results);
-
-
-        UserModel selectedUser = userService.getUserById(userId);
         model.addAttribute("selectedUser", selectedUser);
         model.addAttribute("selectedRooms", rooms);
 
-        for(RoomModel room : rooms){
-           String resAccess = acsService.checkAccess(userId, room.getId());
-           results.add(resAccess);
-            AccessCheckResultModel accessCheckResult = new AccessCheckResultModel();
-            accessCheckResult.setDescription(resAccess);
-            accessCheckResultService.addAccessCheckResult(accessCheckResult);
+        for (RoomModel room : rooms) {
+            String resAccess = acsService.checkAccess(userId, room.getId());            // -> metoda sprawdzająca dostęp do każdego z pomieszczeń
+            results.add(resAccess);                                                     // -> przypisanie wyniku do listy wyświetlanej na stronie
+            AccessCheckResultModel accessCheckResult = new AccessCheckResultModel();    // -> utworzenie nowej instancji wyniku dla każedej iteracji sprawdzania dostępu
+            accessCheckResult.setDescription(resAccess);                                // -> ustawienie opisu
+            accessCheckResultService.addAccessCheckResult(accessCheckResult);           // -> zapisanie wyniku do bazy danych
+
             model.addAttribute("resAccess", resAccess);
             model.addAttribute("room", room);
         }
