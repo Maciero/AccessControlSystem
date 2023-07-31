@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,13 +39,14 @@ public class RoomController {
     }
 
     @PostMapping("/addRoom")
-    public String addRoom(@Valid RoomModel newRoom, BindingResult result, Model model) {
+    public String addRoom(@ModelAttribute("addedRoom") @Valid RoomModel newRoom, BindingResult result, Model model) {
         List<BuildingModel> buildingList = buildingService.getBuildingList();
         model.addAttribute("buildingsList", buildingList);
-        model.addAttribute("addedRoom", new RoomModel());
+
         if (result.hasErrors()) {
             return "room/add-room";
         }
+
         roomService.addRoom(newRoom);
         return "redirect:/rooms";
     }
