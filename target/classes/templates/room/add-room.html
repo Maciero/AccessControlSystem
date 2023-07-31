@@ -1,9 +1,23 @@
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+
+
 <div>Add room</div>
 <form action="#" th:action="@{/addRoom}" th:object="${addedRoom}" method="post">
 
-    <label for="name">Name</label>
-    <input type="text" th:field="*{name}" id="name" placeholder="Name">
-    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+<!--    <label for="name">Name</label>-->
+<!--    <input type="text" th:field="*{name}" id="name" placeholder="Name">-->
+<!--    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
+
+
+
 
     <label for="access">Security zone</label>
     <select name="access" id="access" th:field="*{zone}">
@@ -14,15 +28,28 @@
                 th:text="${accessL.toString()}"
         ></option>
     </select>
+
+    <p th:if="${#fields.hasErrors('zone')}"
+       th:class="${#fields.hasErrors('zone')}? error">
+        Access is required</p>
+
+
+
+
     <label for="building">Building</label>
     <!--    <input type="text" th:field="*{building.id}" id="building" placeholder="Building">-->
-    <select name="building" id="building">
+    <select name="building" id="building" >
         <option value="buildingModel" hidden>select</option>
         <option th:each="model : ${buildingsList}"
                 th:value="${model.id}"
                 th:text="${model.name}">Wybierz model
         </option>
     </select>
+
+    <p  th:if="${#fields.hasErrors('building')}"
+        th:class="${#fields.hasErrors('building')}? error">
+        Building is required</p>
+
     <br>
     <label for="departments">Departments:</label>
     <ul id="departments">

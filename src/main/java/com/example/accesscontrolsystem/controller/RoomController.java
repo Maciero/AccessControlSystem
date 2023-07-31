@@ -2,8 +2,10 @@ package com.example.accesscontrolsystem.controller;
 
 import com.example.accesscontrolsystem.model.BuildingModel;
 import com.example.accesscontrolsystem.model.RoomModel;
+import com.example.accesscontrolsystem.repository.BuildingRepository;
 import com.example.accesscontrolsystem.service.BuildingService;
 import com.example.accesscontrolsystem.service.RoomService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +42,10 @@ public class RoomController {
     }
 
     @PostMapping("/addRoom")
-    public String addRoom(RoomModel newRoom, BindingResult result) {
+    public String addRoom(@Valid RoomModel newRoom, BindingResult result, Model model) {
+        List<BuildingModel> buildingList = buildingService.getBuildingList();
+        model.addAttribute("buildingsList", buildingList);
+        model.addAttribute("addedRoom", new RoomModel());
         if (result.hasErrors()) {
             return "room/add-room";
         }
