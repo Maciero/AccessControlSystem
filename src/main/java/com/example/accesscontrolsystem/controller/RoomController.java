@@ -2,16 +2,15 @@ package com.example.accesscontrolsystem.controller;
 
 import com.example.accesscontrolsystem.model.BuildingModel;
 import com.example.accesscontrolsystem.model.RoomModel;
+import com.example.accesscontrolsystem.repository.BuildingRepository;
 import com.example.accesscontrolsystem.service.BuildingService;
 import com.example.accesscontrolsystem.service.RoomService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,10 +39,14 @@ public class RoomController {
     }
 
     @PostMapping("/addRoom")
-    public String addRoom(RoomModel newRoom, BindingResult result) {
+    public String addRoom(@ModelAttribute("addedRoom") @Valid RoomModel newRoom, BindingResult result, Model model) {
+        List<BuildingModel> buildingList = buildingService.getBuildingList();
+        model.addAttribute("buildingsList", buildingList);
+
         if (result.hasErrors()) {
             return "room/add-room";
         }
+
         roomService.addRoom(newRoom);
         return "redirect:/rooms";
     }
