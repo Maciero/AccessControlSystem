@@ -55,7 +55,5 @@ public class AccessCheckResultController {
     @GetMapping("result/exportPDF")
     public void exportToPDF(HttpServletResponse response) throws DocumentException, IOException {
         accessCheckResultService.exportToPDF(response);
-
-
     }
 }
