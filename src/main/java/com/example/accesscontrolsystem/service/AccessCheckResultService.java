@@ -87,6 +87,14 @@ public class AccessCheckResultService {
         }
     }
 
+    public void removeOlderThan(){
+        Date dateToCompare = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
+        getResults().stream()
+                .filter(e-> e.getCreationDate().before(dateToCompare))
+                .collect(Collectors.toList())
+                .forEach(e->removeResult(e.getId()));
+    }
+
     public String getACRCount(List<AccessCheckResultModel> acr) {
         return "Total number of records: " + acr.size();
     }
