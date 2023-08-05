@@ -9,5 +9,4 @@ class AccessControlSystemApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

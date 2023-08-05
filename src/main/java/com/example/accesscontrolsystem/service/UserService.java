@@ -53,7 +53,7 @@ public class UserService {
                     users.sort(Comparator.comparing(u -> u.getSurname().toLowerCase()));
                     break;
 //                case "buildingModel":
-//                    users.sort(Comparator.comparing(UserModel::getBuildingModel));
+//                    users.sort(Comparator.comparing(u -> u.getBuildingModels().get(0).getName()).thenComparing(UserModel::getName));
 //                    break;
                 case "department":
                     users.sort(Comparator.comparing(u -> u.getDepartment().getDisplayText().toLowerCase()));
