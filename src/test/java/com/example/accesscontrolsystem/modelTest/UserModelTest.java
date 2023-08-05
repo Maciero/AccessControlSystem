@@ -1,4 +1,4 @@
-package com.example.accesscontrolsystem;
+package com.example.accesscontrolsystem.modelTest;
 
 import com.example.accesscontrolsystem.model.*;
 import jakarta.validation.ConstraintViolation;
@@ -47,6 +47,9 @@ class UserModelTest {
 
         List<AccessList> accessList = new ArrayList<>();
         userModel.setAccessList(accessList); // Invalid: Access List is required
+
+        List<Positions> positions = new ArrayList<>();
+        userModel.setPositions(null); // Invalid: Position is required
 
         Set<ConstraintViolation<UserModel>> violations = validator.validate(userModel);
         assertThat(violations).hasSize(3);

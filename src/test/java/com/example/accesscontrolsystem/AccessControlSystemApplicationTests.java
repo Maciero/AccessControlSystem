@@ -10,4 +10,3 @@ class AccessControlSystemApplicationTests {
     void contextLoads() {
     }
 }
-
