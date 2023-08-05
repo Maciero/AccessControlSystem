@@ -65,6 +65,7 @@ public class ResultPDFExporter {
         document.add(p);
 
         PdfPTable table = new PdfPTable(3);
+
         table.setWidthPercentage(100f);
         table.setWidths(new float[] {1.5f, 7.5f, 2f});
         table.setSpacingBefore(10);
