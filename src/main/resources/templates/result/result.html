@@ -1,0 +1,50 @@
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<h2>Access Check Result</h2>
+<div th:switch="${acrList}">
+    <h2 th:case="null">No access attempt!</h2>
+    <div th:case="*">
+        <table>
+            <thead>
+            <tr>
+                <th> <a th:href="@{/result(sortBy='id')}">ID</a></th>
+                <th><a th:href="@{/result(sortBy='description')}">Description</a></th>
+                <th><a th:href="@{/result(sortBy='creationDate')}">Created Date</a></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="acr : ${acrList}">
+                <td th:text="${acr.id}"></td>
+                <td th:text="${acr.description}"></td>
+                <td th:text="${#dates.format(acr.creationDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                <td><a th:href="@{/deleteACR/{id}(id=${acr.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div th:text = "${count}"></div>
+<!--    <p><a href="/addBuildings">Add a new building</a></p>-->
+    <br>
+    <h1>Go to:</h1>
+    <table cellspacing="15">
+        <th ><a href="/building">Buildings</a></th>
+        <th><a href="/rooms">Rooms</a></th>
+        <th><a href="/">Users</a></th>
+        <th ><a href="/acs">ACS</a></th>
+        <th ><a href="/result">Results</a></th>
+    </table>
+</div>

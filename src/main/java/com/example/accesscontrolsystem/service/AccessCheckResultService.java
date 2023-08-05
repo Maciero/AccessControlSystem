@@ -34,17 +34,21 @@ public class AccessCheckResultService {
         accessCheckResultRepository.deleteById(id);
     }
 
-    public void sortRooms(List<AccessCheckResultModel> rooms, String sortBy) {
+    public void removeOldestTen(List<AccessCheckResultModel> oldest){
+
+    }
+
+    public void sortResults(List<AccessCheckResultModel> res, String sortBy) {
         if (sortBy != null) {
             switch (sortBy) {
                 case "id":
-                    rooms.sort(Comparator.comparing(AccessCheckResultModel::getId));
+                    res.sort(Comparator.comparing(AccessCheckResultModel::getId));
                     break;
                 case "creationDate":
-                    rooms.sort(Comparator.comparing(u -> u.getCreationDate().toString()));
+                    res.sort(Comparator.comparing(u -> u.getCreationDate().toString()));
                     break;
                 case "description":
-                    rooms.sort(Comparator.comparing(e -> e.getDescription().toLowerCase()));
+                    res.sort(Comparator.comparing(e -> e.getDescription().toLowerCase()));
                     break;
                 default:
                     // Obsłuż nieznany parametr sortowania
@@ -53,7 +57,7 @@ public class AccessCheckResultService {
         }
     }
 
-    public String getRoomCount(List<AccessCheckResultModel> acr) {
+    public String getACRCount(List<AccessCheckResultModel> acr) {
         return "Total number of records: " + acr.size();
     }
 }
