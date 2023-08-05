@@ -59,11 +59,15 @@
     </form>
     </td>
     <td>
-
     <form action="#" th:action="@{/deleteAllRecords}" method="get" id="deleteAll">
         <input type="button" value="Delete All Record" id="deleteAllButton">
     </form>
     </td>
+        <td>
+            <form action="#" th:action="@{/result/exportPDF}" method="get" id="export">
+                <input type="submit" value="Export To PDF" >
+            </form>
+        </td>
 
 </table>
 <br>

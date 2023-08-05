@@ -1,12 +1,19 @@
 package com.example.accesscontrolsystem.service;
 
 import com.example.accesscontrolsystem.model.AccessCheckResultModel;
+import com.example.accesscontrolsystem.model.ResultPDFExporter;
 import com.example.accesscontrolsystem.model.RoomModel;
 import com.example.accesscontrolsystem.repository.AccessCheckResultRepository;
+import com.lowagie.text.DocumentException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +51,21 @@ public class AccessCheckResultService {
     }
     public void removeAll(){
         accessCheckResultRepository.deleteAll();
+    }
+
+    public void exportToPDF(HttpServletResponse response)throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=results_" + currentDateTime + ".pdf";
+        response.setHeader(headerKey, headerValue);
+
+        List<AccessCheckResultModel> list = getResults();
+
+        ResultPDFExporter exporter = new ResultPDFExporter(list);
+        exporter.export(response);
     }
 
     public void sortResults(List<AccessCheckResultModel> res, String sortBy) {
