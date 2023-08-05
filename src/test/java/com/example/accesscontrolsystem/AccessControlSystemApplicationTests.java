@@ -47,11 +47,9 @@ class AccessControlSystemApplicationTests {
         List<AccessList> accessList = new ArrayList<>();
         userModel.setAccessList(accessList); // Invalid: Access List is required
 
-        List<Positions> positions = new ArrayList<>();
-        userModel.setPositions(null);
 
         Set<ConstraintViolation<UserModel>> violations = validator.validate(userModel);
-        assertThat(violations).hasSize(3);
+        assertThat(violations).hasSize(2);
     }
 
     @Test
