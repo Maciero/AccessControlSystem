@@ -1,13 +1,21 @@
 package com.example.accesscontrolsystem.service;
 
 import com.example.accesscontrolsystem.model.AccessCheckResultModel;
+import com.example.accesscontrolsystem.model.ResultPDFExporter;
 import com.example.accesscontrolsystem.model.RoomModel;
 import com.example.accesscontrolsystem.repository.AccessCheckResultRepository;
+import com.lowagie.text.DocumentException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -34,17 +42,43 @@ public class AccessCheckResultService {
         accessCheckResultRepository.deleteById(id);
     }
 
-    public void sortRooms(List<AccessCheckResultModel> rooms, String sortBy) {
+    public void removeOldestTen(){
+      getResults().stream()
+              .sorted(Comparator.comparing(u -> u.getCreationDate()))
+              .limit(10)
+              .collect(Collectors.toList())
+              .forEach(e-> removeResult(e.getId()));
+    }
+    public void removeAll(){
+        accessCheckResultRepository.deleteAll();
+    }
+
+    public void exportToPDF(HttpServletResponse response)throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=results_" + currentDateTime + ".pdf";
+        response.setHeader(headerKey, headerValue);
+
+        List<AccessCheckResultModel> list = getResults();
+
+        ResultPDFExporter exporter = new ResultPDFExporter(list);
+        exporter.export(response);
+    }
+
+    public void sortResults(List<AccessCheckResultModel> res, String sortBy) {
         if (sortBy != null) {
             switch (sortBy) {
                 case "id":
-                    rooms.sort(Comparator.comparing(AccessCheckResultModel::getId));
+                    res.sort(Comparator.comparing(AccessCheckResultModel::getId));
                     break;
                 case "creationDate":
-                    rooms.sort(Comparator.comparing(u -> u.getCreationDate().toString()));
+                    res.sort(Comparator.comparing(u -> u.getCreationDate().toString()));
                     break;
                 case "description":
-                    rooms.sort(Comparator.comparing(e -> e.getDescription().toLowerCase()));
+                    res.sort(Comparator.comparing(e -> e.getDescription().toLowerCase()));
                     break;
                 default:
                     // Obsłuż nieznany parametr sortowania
@@ -53,7 +87,7 @@ public class AccessCheckResultService {
         }
     }
 
-    public String getRoomCount(List<AccessCheckResultModel> acr) {
+    public String getACRCount(List<AccessCheckResultModel> acr) {
         return "Total number of records: " + acr.size();
     }
 }
