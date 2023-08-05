@@ -15,10 +15,10 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class AccessCheckResultController {
-   private final AccessCheckResultService accessCheckResultService;
+    private final AccessCheckResultService accessCheckResultService;
 
     @GetMapping("/result")
-    public String getResult(@RequestParam(value = "sortBy", required = false) String sortBy, Model model){
+    public String getResult(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
         List<AccessCheckResultModel> acrList = accessCheckResultService.getResults();
         accessCheckResultService.sortResults(acrList, sortBy);
 
@@ -27,9 +27,21 @@ public class AccessCheckResultController {
         return "result/result";
     }
 
-   @GetMapping("/deleteACR/{id}")
-    public String deleteResult(@PathVariable("id") Long id){
+    @GetMapping("/deleteACR/{id}")
+    public String deleteResult(@PathVariable("id") Long id) {
         accessCheckResultService.removeResult(id);
         return "redirect:/result";
-   }
+    }
+
+    @GetMapping("/deleteTenOldest")
+    public String deleteTenOldest() {
+        accessCheckResultService.removeOldestTen();
+        return "redirect:/result";
+    }
+
+    @GetMapping("/deleteAllRecords")
+    public String deleteAll(){
+        accessCheckResultService.removeAll();
+        return "redirect:/result";
+    }
 }

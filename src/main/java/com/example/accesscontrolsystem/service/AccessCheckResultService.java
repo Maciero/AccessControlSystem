@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -34,8 +35,15 @@ public class AccessCheckResultService {
         accessCheckResultRepository.deleteById(id);
     }
 
-    public void removeOldestTen(List<AccessCheckResultModel> oldest){
-
+    public void removeOldestTen(){
+      getResults().stream()
+              .sorted(Comparator.comparing(u -> u.getCreationDate()))
+              .limit(10)
+              .collect(Collectors.toList())
+              .forEach(e-> removeResult(e.getId()));
+    }
+    public void removeAll(){
+        accessCheckResultRepository.deleteAll();
     }
 
     public void sortResults(List<AccessCheckResultModel> res, String sortBy) {
