@@ -31,8 +31,8 @@ public class SecurityConfig {
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .inMemoryAuthentication()
-                .withUser("user")
-                .password("password").roles("USER")
+                .withUser("admin")
+                .password("admin").roles("ADMIN")
                 .and().and()
                 .build();
     }
