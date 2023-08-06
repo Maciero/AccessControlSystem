@@ -12,9 +12,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.aot.generate.AccessControl;
 
-import java.util.Arrays;
+import static org.assertj.core.api.Assertions.assertThat;
+
+
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,37 +30,33 @@ public class AcsServiceTest {
     @InjectMocks
     private AcsService yourService;
 
-//    @Test
-//    public void testCheckAccess() {
-//        // Przygotowanie danych testowych
-//        Long userId = 1L;
-//        Long roomId = 2L;
-//
-//        UserModel user = new UserModel();
-//        user.setId(userId);
-//        user.setName("John");
-//
-//        RoomModel room = new RoomModel();
-//        room.setId(roomId);
-//        room.setName("Meeting Room");
-//
-//        UserService userService = mock(UserService.class);
-//        when(userService.getUserById(userId)).thenReturn(user);
-//
-//        RoomService roomService = mock(RoomService.class);
-//        when(roomService.getRoomById(roomId)).thenReturn(room);
-//
-////        AccessControl accessControl = new AccessControl(userService, roomService);
-////
-////        // Wywołanie testowanej metody
-//        String result = accessControl.checkAccess(userId, roomId);
-//
-//        // Asertacje
-//        assertEquals("Not checked", result);
-//    }
+    @Test
+    void testCheckAccess_UserHasPositionAndAccess() {
 
+        Long userId = 1L;
+        Long roomId = 2L;
 
-    // test nie działa, testCheckIfUserHasAccessToBuildingWithAccess
+        // Tworzenie przykładowego użytkownika z odpowiednimi wartościami
+        UserModel user = new UserModel();
+        user.setName("John");
+        user.setPositions(Positions.MANAGER);
+
+        // Tworzenie przykładowego pokoju
+        RoomModel room = new RoomModel();
+        room.setName("Conference Room");
+
+        // Mockowanie metody getUserById zwracając obiekt user
+        when(userService.getUserById(userId)).thenReturn(user);
+
+        // Mockowanie metody getRoomById zwracając obiekt room
+        when(roomService.getRoomById(roomId)).thenReturn(room);
+
+        // Wywołanie testowanej metody
+        String result = yourService.checkAccess(userId, roomId);
+
+        assertThat(result).isEqualTo("Access to Conference Room is granted for user John. User has access everywhere.");
+    }
+
     @Test
     public void testCheckIfUserHasAccessToBuildingWithAccess() {
         // Tworzenie przykładowego użytkownika z listą budynków zawierającą BuildingModel o id 1
@@ -85,7 +82,6 @@ public class AcsServiceTest {
         assertTrue(result);
     }
 
-    // test nie działa, testCheckIfUserHasAccessToBuildingWithoutAccess
     @Test
     public void testCheckIfUserHasAccessToBuildingWithoutAccess() {
         // Tworzenie przykładowego użytkownika z listą budynków nie zawierającą BuildingModel o id 1
@@ -143,47 +139,48 @@ public class AcsServiceTest {
         // Sprawdzenie czy wynik jest zgodny z oczekiwaniami
         assertFalse(result);
     }
-        @Test
-        public void testCheckAccessListWithAccess() {
-            // Tworzenie przykładowego użytkownika z listą dostępu zawierającą AccessList.ZONE_A
-            UserModel user = new UserModel();
-            user.setAccessList(List.of(AccessList.SECURE));
 
-            // Tworzenie przykładowego pokoju z AccessList.ZONE_A
-            RoomModel room = new RoomModel();
-            room.setZone(AccessList.SECURE);
+    @Test
+    public void testCheckAccessListWithAccess() {
+        // Tworzenie przykładowego użytkownika z listą dostępu zawierającą AccessList.ZONE_A
+        UserModel user = new UserModel();
+        user.setAccessList(List.of(AccessList.SECURE));
 
-            // Definiowanie zachowań metod getUserById(userId) i getRoomById(roomId) w mockach userService i roomService
-            when(userService.getUserById(anyLong())).thenReturn(user);
-            when(roomService.getRoomById(anyLong())).thenReturn(room);
+        // Tworzenie przykładowego pokoju z AccessList.ZONE_A
+        RoomModel room = new RoomModel();
+        room.setZone(AccessList.SECURE);
 
-            // Wywołanie testowanej metody
-            boolean result = yourService.checkAccessList(1L, 1L);
+        // Definiowanie zachowań metod getUserById(userId) i getRoomById(roomId) w mockach userService i roomService
+        when(userService.getUserById(anyLong())).thenReturn(user);
+        when(roomService.getRoomById(anyLong())).thenReturn(room);
 
-            // Sprawdzenie czy wynik jest zgodny z oczekiwaniami
-            assertTrue(result);
-        }
+        // Wywołanie testowanej metody
+        boolean result = yourService.checkAccessList(1L, 1L);
 
-        @Test
-        public void testCheckAccessListWithoutAccess() {
-            // Tworzenie przykładowego użytkownika z listą dostępu nie zawierającą AccessList.ZONE_A
-            UserModel user = new UserModel();
-            user.setAccessList(List.of(AccessList.PUBLIC)); // Załóżmy, że to jest ina strefa
-
-            // Tworzenie przykładowego pokoju z AccessList.ZONE_A
-            RoomModel room = new RoomModel();
-            room.setZone(AccessList.SECURE);
-
-            // Definiowanie zachowań metod getUserById(userId) i getRoomById(roomId) w mockach userService i roomService
-            when(userService.getUserById(anyLong())).thenReturn(user);
-            when(roomService.getRoomById(anyLong())).thenReturn(room);
-
-            // Wywołanie testowanej metody
-            boolean result = yourService.checkAccessList(1L, 1L);
-
-            // Sprawdzenie czy wynik jest zgodny z oczekiwaniami
-            assertFalse(result);
-        }
-
+        // Sprawdzenie czy wynik jest zgodny z oczekiwaniami
+        assertTrue(result);
     }
+
+    @Test
+    public void testCheckAccessListWithoutAccess() {
+        // Tworzenie przykładowego użytkownika z listą dostępu nie zawierającą AccessList.ZONE_A
+        UserModel user = new UserModel();
+        user.setAccessList(List.of(AccessList.PUBLIC)); // Załóżmy, że to jest ina strefa
+
+        // Tworzenie przykładowego pokoju z AccessList.ZONE_A
+        RoomModel room = new RoomModel();
+        room.setZone(AccessList.SECURE);
+
+        // Definiowanie zachowań metod getUserById(userId) i getRoomById(roomId) w mockach userService i roomService
+        when(userService.getUserById(anyLong())).thenReturn(user);
+        when(roomService.getRoomById(anyLong())).thenReturn(room);
+
+        // Wywołanie testowanej metody
+        boolean result = yourService.checkAccessList(1L, 1L);
+
+        // Sprawdzenie czy wynik jest zgodny z oczekiwaniami
+        assertFalse(result);
+    }
+
+}
 
