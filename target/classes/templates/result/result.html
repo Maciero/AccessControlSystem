@@ -60,7 +60,7 @@
     </h3>
 </h2>
 
-    <h4>Options</h4>
+    <h4>Options:</h4>
 
     <table>
     <td>
@@ -76,6 +76,11 @@
         <td>
             <form action="#" th:action="@{/result/exportPDF}" method="get" id="export">
                 <input type="submit" value="Export To PDF" >
+            </form>
+        </td>
+        <td>
+            <form action="#" th:action="@{/result/exportCSV}" method="get" id="exportCSV">
+                <input type="submit" value="Export To CSV" >
             </form>
         </td>
 
