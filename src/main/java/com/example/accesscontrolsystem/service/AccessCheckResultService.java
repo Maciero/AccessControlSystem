@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +31,15 @@ public class AccessCheckResultService {
     private final AccessCheckResultRepository accessCheckResultRepository;
     @Value("${csv.output.path}")
     String path;
+    @Value("${csv.output.path2}")
+    String fullBackupPath;
+
+    @Autowired
+    private DateTimeFormatter dateTimeFormatter;
+
+    private String getFormattedDate() {
+        return dateTimeFormatter.format(LocalDateTime.now());
+    }
 
     public void addAccessCheckResult(AccessCheckResultModel acr) {
         accessCheckResultRepository.save(acr);
@@ -75,6 +87,16 @@ public class AccessCheckResultService {
         exporter.export(response);
     }
 
+    public void exportToCSV() throws IOException{
+        String now = getFormattedDate() + ".csv";
+        try {
+            String fullBackupPathWithDate = fullBackupPath.replace(".csv", now );
+            saveToCSV(getResults(), fullBackupPathWithDate);
+        } catch (IOException e){
+            throw new IOException();
+        }
+    }
+
     public void sortResults(List<AccessCheckResultModel> res, String sortBy) {
         if (sortBy != null) {
             switch (sortBy) {
@@ -95,12 +117,15 @@ public class AccessCheckResultService {
     }
     @PostConstruct
     public void removeOlderThan() throws IOException{
-        Date dateToCompare = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
+        String filePath = path;
+
+        Date dateToCompare = new Date(System.currentTimeMillis() - 1 * 60 * 1000);
         List<AccessCheckResultModel> acrFiltered = getResults().stream()
                 .filter(e-> e.getCreationDate().before(dateToCompare))
                 .collect(Collectors.toList());
+
         if(!acrFiltered.isEmpty()) {
-            saveToCSV(acrFiltered);
+            saveToCSV(acrFiltered, filePath);
             acrFiltered.forEach(e -> removeResult(e.getId()));
         }
     }
@@ -113,18 +138,20 @@ public class AccessCheckResultService {
 
 
 
-    private void saveToCSV(List<AccessCheckResultModel> list) throws IOException{
+    private void saveToCSV(List<AccessCheckResultModel> list, String filePath) throws IOException{
        Boolean isBackup = false;
        Boolean isEmpty = false;
 
         try{
 
-            File newBackup = new File(path);
+            File newBackup = new File(filePath);
             if(!newBackup.exists()){
                 newBackup.createNewFile();
                 isEmpty = true;
+                isBackup = true;
             } else {
                 isBackup = true;
+                isEmpty = false;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -132,7 +159,7 @@ public class AccessCheckResultService {
         }
         if(isBackup) {
             try {
-                FileWriter writer = new FileWriter(path, true);
+                FileWriter writer = new FileWriter(filePath, true);
                 CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.EXCEL.withDelimiter(';'));
                 if (isEmpty) {
                     csvPrinter.printRecord("Id", "Description", "CreationDate");
