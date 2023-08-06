@@ -1,5 +1,6 @@
 package com.example.accesscontrolsystem.service;
 
+import com.example.accesscontrolsystem.model.BuildingModel;
 import com.example.accesscontrolsystem.model.UserModel;
 import com.example.accesscontrolsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -52,9 +54,10 @@ public class UserService {
                 case "surname":
                     users.sort(Comparator.comparing(u -> u.getSurname().toLowerCase()));
                     break;
-//                case "buildingModel":
-//                    users.sort(Comparator.comparing(u -> u.getBuildingModels().get(0).getName()).thenComparing(UserModel::getName));
-//                    break;
+                case "buildingModel":
+                    users.sort(Comparator.comparing(u -> u.getBuildingModels().isEmpty() ? null : u.getBuildingModels().get(0).getName()));
+
+                    break;
                 case "department":
                     users.sort(Comparator.comparing(u -> u.getDepartment().getDisplayText().toLowerCase()));
                     break;
