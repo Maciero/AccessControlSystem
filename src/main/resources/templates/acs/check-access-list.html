@@ -3,7 +3,7 @@
     <label for="user">Choose user:</label>
     <ul id="user" >
         <li th:each="user : ${users}">
-            <input type="radio" name="userId" th:value="${user.id}" th:text="${user.id +' '+ user.name}"/>
+            <input type="radio" name="userId" th:value="${user.id}" th:text="${user.id +' '+ user.name + ' ' + user.surname}"/>
         </li>
     </ul>
 
