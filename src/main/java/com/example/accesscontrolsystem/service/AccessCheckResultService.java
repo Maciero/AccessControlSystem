@@ -2,13 +2,18 @@ package com.example.accesscontrolsystem.service;
 
 import com.example.accesscontrolsystem.model.AccessCheckResultModel;
 import com.example.accesscontrolsystem.model.ResultPDFExporter;
-import com.example.accesscontrolsystem.model.RoomModel;
 import com.example.accesscontrolsystem.repository.AccessCheckResultRepository;
 import com.lowagie.text.DocumentException;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,6 +26,8 @@ import java.util.stream.Collectors;
 @Service
 public class AccessCheckResultService {
     private final AccessCheckResultRepository accessCheckResultRepository;
+    @Value("${csv.output.path}")
+    String path;
 
     public void addAccessCheckResult(AccessCheckResultModel acr) {
         accessCheckResultRepository.save(acr);
@@ -86,8 +93,58 @@ public class AccessCheckResultService {
             }
         }
     }
+    @PostConstruct
+    public void removeOlderThan() throws IOException{
+        Date dateToCompare = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
+        List<AccessCheckResultModel> acrFiltered = getResults().stream()
+                .filter(e-> e.getCreationDate().before(dateToCompare))
+                .collect(Collectors.toList());
+        if(!acrFiltered.isEmpty()) {
+            saveToCSV(acrFiltered);
+            acrFiltered.forEach(e -> removeResult(e.getId()));
+        }
+    }
+
+
 
     public String getACRCount(List<AccessCheckResultModel> acr) {
         return "Total number of records: " + acr.size();
+    }
+
+
+
+    private void saveToCSV(List<AccessCheckResultModel> list) throws IOException{
+       Boolean isBackup = false;
+       Boolean isEmpty = false;
+
+        try{
+
+            File newBackup = new File(path);
+            if(!newBackup.exists()){
+                newBackup.createNewFile();
+                isEmpty = true;
+            } else {
+                isBackup = true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            isBackup=false;
+        }
+        if(isBackup) {
+            try {
+                FileWriter writer = new FileWriter(path, true);
+                CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.EXCEL.withDelimiter(';'));
+                if (isEmpty) {
+                    csvPrinter.printRecord("Id", "Description", "CreationDate");
+                }
+                for (AccessCheckResultModel e : list) {
+                    csvPrinter.printRecord(e.getId(), e.getDescription(), e.getCreationDate());
+                }
+                csvPrinter.flush();
+            } catch (IOException e) {
+                throw new IOException("Cannot make backup");
+            }
+        }
+
     }
 }

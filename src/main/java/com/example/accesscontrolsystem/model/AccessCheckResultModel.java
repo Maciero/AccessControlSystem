@@ -29,6 +29,10 @@ public class AccessCheckResultModel {
     @Column
     private String description;
 
+    public String[] toStringRecord(){
+        return new String [] {this.Id.toString(), this.description, this.creationDate.toString()};
+    }
+
     @PrePersist
     public void prePersist() {
         this.creationDate = new Date();
