@@ -1,6 +1,21 @@
-<h1>ACS</h1>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .logout-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+
+<h1>ACS
+    <h3>
+        <a href="/logout" class="logout-link">Logout</a>
+    </h3>
+</h1>
 <h2>-------- Test separate contitions --------</h2>
-<h4> <label for="checkBuilding">Building Check</label></h4>
+<h4><label for="checkBuilding">Building Check</label></h4>
 <form action="#" th:action="@{/checkBuilding}" method="post" id="checkBuilding">
     <label for="user">User</label>
     <select name="userId" id="user">
@@ -19,25 +34,25 @@
 <div th:if="${resBuilding != null}" th:text="'Building check result: ' + ${resBuilding}"></div>
 <br>
 <div>
-  <h4>  <label for="checkPosition">Position Check</label> </h4>
-<form action="#" th:action="@{/checkPosition}" method="post" id="checkPosition">
-    <label for="user2">User</label>
-    <select name="userId" id="user2">
-        <option value="user" hidden>select</option>
-        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.id}"></option>
-    </select>
+    <h4><label for="checkPosition">Position Check</label></h4>
+    <form action="#" th:action="@{/checkPosition}" method="post" id="checkPosition">
+        <label for="user2">User</label>
+        <select name="userId" id="user2">
+            <option value="user" hidden>select</option>
+            <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.id}"></option>
+        </select>
 
-    <input type="submit" value="Check Position">
-</form>
+        <input type="submit" value="Check Position">
+    </form>
     <div th:if="${resPosition != null}">
         <div th:switch="${resPosition}">
             <p th:case="true">Position check result: Manager</p>
             <p th:case="false">Position check result: Regular</p>
             <p th:case="*">Position check result: Unknown</p>
         </div>
-</div>
+    </div>
     <br>
-   <h4> <label for="checkList">Access List Check</label></h4>
+    <h4><label for="checkList">Access List Check</label></h4>
     <form action="#" th:action="@{/checkAccessList}" method="post" id="checkList">
         <label for="user3">User</label>
         <select name="userId" id="user3">
@@ -56,7 +71,7 @@
     <div th:if="${resAccessList != null}" th:text="'AccessList check result: ' + ${resAccessList}"></div>
 
     <br>
-   <h4> <label for="checkAccess">Access Check</label> </h4>
+    <h4><label for="checkAccess">Access Check</label></h4>
     <form action="#" th:action="@{/checkAccessAll}" method="post" id="checkAccess">
         <label for="user4">User</label>
         <select name="userId" id="user4">
@@ -75,8 +90,8 @@
     <div th:if="${resAccess != null}" th:text="'Access(All Conditions) check result: ' + ${resAccess}"></div>
 
 
-
-  <h2>  <label for="getCheckAccessForList">-------- Check access for all conditions and list of rooms --------  </label></h2>
+    <h2><label for="getCheckAccessForList">-------- Check access for all conditions and list of rooms -------- </label>
+    </h2>
     <form action="#" th:action="@{/checkAccess}" method="get" id="getCheckAccessForList">
         <input type="submit" value="Check access ----> Go to new view">
     </form>
@@ -84,25 +99,25 @@
     <th><a href="/acs">Reset</a></th>
     <br>
 
-<h1>Go to:</h1>
-<table cellspacing="15">
-    <th><a href="/rooms">Rooms</a></th>
-    <th><a href="/">Users</a></th>
-    <th><a href="/building">Building</a></th>
-    <th><a href="/result">Results</a></th>
-</table>
+    <h1>Go to:</h1>
+    <table cellspacing="15">
+        <th><a href="/rooms">Rooms</a></th>
+        <th><a href="/">Users</a></th>
+        <th><a href="/building">Building</a></th>
+        <th><a href="/result">Results</a></th>
+    </table>
 
-<!--<form action="#" th:action="@{/acsCheckBuilding}" method="get">-->
-<!--    <input type="submit" value="Check Building">-->
-<!--</form>-->
+    <!--<form action="#" th:action="@{/acsCheckBuilding}" method="get">-->
+    <!--    <input type="submit" value="Check Building">-->
+    <!--</form>-->
 
-<!--<div th:if="${res != null}" th:text="'Building check result: ' + ${res}"></div>-->
+    <!--<div th:if="${res != null}" th:text="'Building check result: ' + ${res}"></div>-->
 
-<!--<br>-->
-<!--<h1>Go to:</h1>-->
-<!--<table cellspacing="15">-->
-<!--    <th><a href="/rooms">Rooms</a></th>-->
-<!--    <th><a href="/">Users</a></th>-->
-<!--    <th><a href="/building">Building</a></th>-->
-<!--</table>-->
-<!--</div>-->
+    <!--<br>-->
+    <!--<h1>Go to:</h1>-->
+    <!--<table cellspacing="15">-->
+    <!--    <th><a href="/rooms">Rooms</a></th>-->
+    <!--    <th><a href="/">Users</a></th>-->
+    <!--    <th><a href="/building">Building</a></th>-->
+    <!--</table>-->
+    <!--</div>-->

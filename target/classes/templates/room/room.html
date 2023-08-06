@@ -1,4 +1,22 @@
-<h2>Rooms</h2>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .error {
+            color: red;
+        }
+        .logout-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+
+<h2>Rooms
+    <h3>
+        <a href="/logout" class="logout-link">Logout</a>
+    </h3>
+</h2>
 <div th:switch="${rooms}">
     <h2 th:case="null">No rooms yet!</h2>
     <div th:case="*">
