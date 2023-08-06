@@ -119,7 +119,7 @@ public class AccessCheckResultService {
     public void removeOlderThan() throws IOException{
         String filePath = path;
 
-        Date dateToCompare = new Date(System.currentTimeMillis() - 1 * 60 * 1000);
+        Date dateToCompare = new Date(System.currentTimeMillis() - 10 * 60 * 1000);
         List<AccessCheckResultModel> acrFiltered = getResults().stream()
                 .filter(e-> e.getCreationDate().before(dateToCompare))
                 .collect(Collectors.toList());
