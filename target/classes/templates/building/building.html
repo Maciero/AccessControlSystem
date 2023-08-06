@@ -1,9 +1,6 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        .error {
-            color: red;
-        }
         .logout-link {
             position: absolute;
             top: 10px;
@@ -23,7 +20,7 @@
         <table>
             <thead>
             <tr>
-                <th> <a th:href="@{/building(sortBy='id')}">ID</a></th>
+                <th><a th:href="@{/building(sortBy='id')}">ID</a></th>
                 <th><a th:href="@{/building(sortBy='name')}">Name</a></th>
             </tr>
             </thead>
@@ -38,15 +35,15 @@
         </table>
     </div>
     <br>
-    <div th:text = "${count}"></div>
+    <div th:text="${count}"></div>
     <p><a href="/addBuildings">Add a new building</a></p>
     <br>
     <h1>Go to:</h1>
     <table cellspacing="15">
-        <th ><a href="/building">Buildings</a></th>
+        <th><a href="/building">Buildings</a></th>
         <th><a href="/rooms">Rooms</a></th>
         <th><a href="/">Users</a></th>
-        <th ><a href="/acs">ACS</a></th>
-        <th ><a href="/result">Results</a></th>
+        <th><a href="/acs">ACS</a></th>
+        <th><a href="/result">Results</a></th>
     </table>
 </div>

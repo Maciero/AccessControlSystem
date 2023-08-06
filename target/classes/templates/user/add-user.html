@@ -29,11 +29,11 @@
                 th:text="${departmentOpt.getDisplayText()}"></option>
     </select>
 
-    <p  th:if="${#fields.hasErrors('department')}"
-        th:class="${#fields.hasErrors('department')}? error">
+    <p th:if="${#fields.hasErrors('department')}"
+       th:class="${#fields.hasErrors('department')}? error">
         Department is required</p>
 
-<!--    <p th:if="${#fields.hasErrors('department')}">Department is required</p>-->
+    <!--    <p th:if="${#fields.hasErrors('department')}">Department is required</p>-->
 
     <p></p>
     <!--    menu wyboru department-->
@@ -48,7 +48,7 @@
         <!-- Przekaż tylko ID budynku jako wartość checkboxa -->
         <input type="checkbox" th:id="${'buildingModel-' + iterStat.index}"
                th:name="${'buildingModels[' + iterStat.index + ']'}"
-               th:value="${model.id}" />
+               th:value="${model.id}"/>
         <label th:for="${'buildingModel-' + iterStat.index}"
                th:text="${model.name}"></label>
     </div>
@@ -58,12 +58,12 @@
     <p></p>
     <label>Access List:</label>
     <div th:each="access : ${T(com.example.accesscontrolsystem.model.AccessList).values()}">
-        <input type="checkbox" th:field="*{accessList}" th:value="${access}" id="${'accessList-' + access}" />
+        <input type="checkbox" th:field="*{accessList}" th:value="${access}" id="${'accessList-' + access}"/>
         <label th:for="${'accessList-' + access}" th:text="${access.name}"></label>
     </div>
 
-    <p  th:if="${#fields.hasErrors('accessList')}"
-        th:class="${#fields.hasErrors('accessList')}? error">
+    <p th:if="${#fields.hasErrors('accessList')}"
+       th:class="${#fields.hasErrors('accessList')}? error">
         Access list was not selected</p>
     <!--    menu wyboru access-list-->
 
@@ -77,8 +77,8 @@
                 th:text="${positionOpt.getDisplayText()}"></option>
     </select>
 
-    <p  th:if="${#fields.hasErrors('positions')}"
-        th:class="${#fields.hasErrors('positions')}? error">
+    <p th:if="${#fields.hasErrors('positions')}"
+       th:class="${#fields.hasErrors('positions')}? error">
         Position is required</p>
     <!--    menu wyboru position-->
 
@@ -86,5 +86,5 @@
     <input type="submit" value="Add User">
 
     <h1>Go to:</h1>
-        <th><a href="/">Users</a></th>
+    <th><a href="/">Users</a></th>
 </form>

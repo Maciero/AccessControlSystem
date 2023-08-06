@@ -45,13 +45,13 @@
     <div th:each="access : ${T(com.example.accesscontrolsystem.model.AccessList).values()}">
         <input type="checkbox"
                th:field="*{accessList}"
-               th:value="${access}" id="${'accessList-' + access}" />
+               th:value="${access}" id="${'accessList-' + access}"/>
         <label th:for="${'accessList-' + access}"
                th:text="${access.name}"></label>
     </div>
 
-    <p  th:if="${#fields.hasErrors('accessList')}"
-        th:class="${#fields.hasErrors('accessList')}? error">
+    <p th:if="${#fields.hasErrors('accessList')}"
+       th:class="${#fields.hasErrors('accessList')}? error">
         Access list was not selected</p>
     <!--    menu wyboru access-list-->
 
