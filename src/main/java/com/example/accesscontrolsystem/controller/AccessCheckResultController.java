@@ -56,4 +56,10 @@ public class AccessCheckResultController {
     public void exportToPDF(HttpServletResponse response) throws DocumentException, IOException {
         accessCheckResultService.exportToPDF(response);
     }
+
+    @GetMapping("result/exportCSV")
+    public String exportToCSV() throws  IOException {
+        accessCheckResultService.exportToCSV();
+        return "redirect:/result";
+    }
 }
