@@ -21,21 +21,6 @@ public class AcsService {
     private final AccessCheckResultService accessCheckResultService;
 
 
-    /*
-
-    ZAŁOŻENIA DO METOD
-   void  checkAccess(){
-   if(checkIfUserHasAccessToBuilding) true{
-
-
-   to sprawdza strefy z access listy i sprawdza departamenty{
-    1)   stwórzenie enuma ze stanowiskami i powiązanie go z userem (dyrektor, regular), natępnie metoda która sprawdza stanowisko i jak jest dyrektor to zwraca true(przyznaje dostęp)
-   2) metoda która porówna accesslisty user i accessListe roomu -> musi być true żeby wszedł
-
-   Dodatek 3) Lista nadpisań które pozwolą użytkownikowi na dostęp do pomieszczenia niezależnie od zdefiniowanych accessList
-
-   }
-     */
     public String checkAccess(Long userId, Long roomId) {   //'Access to '+ ${room.name} + ' is granted for user '+ ${selectedUser.name}+'.'"></p>
         UserModel user = userService.getUserById(userId);
         RoomModel room = roomService.getRoomById(roomId);
