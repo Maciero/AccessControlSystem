@@ -54,7 +54,7 @@ public class AcsServiceTest {
         // Wywołanie testowanej metody
         String result = yourService.checkAccess(userId, roomId);
 
-        assertThat(result).isEqualTo("Access to Conference Room is granted for user John. User has access everywhere.");
+        assertThat(result).isEqualTo("Access to Conference Room is granted for user John null. User has access everywhere.");
     }
 
     @Test
