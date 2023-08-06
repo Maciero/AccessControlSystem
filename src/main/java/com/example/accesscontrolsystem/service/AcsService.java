@@ -40,18 +40,18 @@ public class AcsService {
         UserModel user = userService.getUserById(userId);
         RoomModel room = roomService.getRoomById(roomId);
         if (checkPositionUser(userId)) {
-            return "Access to " + room + " is granted for user " + user.getName() + ". User has access everywhere.";
+            return "Access to " + room + " is granted for user " + user.getName() + " " + user.getSurname() + ". User has access everywhere.";
         } else {
             if (checkAccessList(userId, roomId) && checkIfUserHasAccessToBuilding(userId, roomId)) {
-               return  "Access to " + room + " is granted for user " + user.getName() + ".";
+                return "Access to " + room + " is granted for user " + user.getName() + " " + user.getSurname() + ".";
             } else {
-                if(!checkAccessList(userId, roomId) && !checkIfUserHasAccessToBuilding(userId, roomId)){
-                    return "Access to " + room + " is not granted for user " + user.getName() + ". Building and access list for this user is noncompatible.";
-                } else if (!checkAccessList(userId, roomId) && checkIfUserHasAccessToBuilding(userId, roomId)){
-                   return  "Access to " + room + " is not granted for user " + user.getName() + ". Access list for this user is noncompatible.";
-                } else if (checkAccessList(userId, roomId) && !checkIfUserHasAccessToBuilding(userId, roomId)){
-                    return  "Access to " + room + " is not granted for user " + user.getName() + ". Building for this user is noncompatible.";
-                } else{
+                if (!checkAccessList(userId, roomId) && !checkIfUserHasAccessToBuilding(userId, roomId)) {
+                    return "Access to " + room + " is not granted for user " + user.getName() + " " + user.getSurname() + ". Building and access list for this user is noncompatible.";
+                } else if (!checkAccessList(userId, roomId) && checkIfUserHasAccessToBuilding(userId, roomId)) {
+                    return "Access to " + room + " is not granted for user " + user.getName() + " " + user.getSurname() + ". Access list for this user is noncompatible.";
+                } else if (checkAccessList(userId, roomId) && !checkIfUserHasAccessToBuilding(userId, roomId)) {
+                    return "Access to " + room + " is not granted for user " + user.getName() + " " + user.getSurname() + ". Building for this user is noncompatible.";
+                } else {
                     return "Not checked";
                 }
             }
